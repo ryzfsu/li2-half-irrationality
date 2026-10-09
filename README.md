@@ -2,6 +2,8 @@
 
 Ruiyi Zhang
 
+DOI: [10.5281/zenodo.23251313](https://doi.org/10.5281/zenodo.23251313)
+
 The manuscript proves that `Li_2(1/2)` is irrational. By the reflection formula,
 `Li_2(1/2) = pi^2/12 - (1/2) log^2 2`, so this is equivalent to the irrationality of
 `pi^2 - 6 log^2 2`.
@@ -43,3 +45,19 @@ Python 3 with `python-flint` (Arb) and at least 20 GiB of available memory:
     python3 li2-half-supplement-v1-20261008/replay.py
 
 `replay.py --quick` runs only the light exact stages.
+
+## Citation
+
+Ruiyi Zhang, *Irrationality of the dilogarithm at 1/2*, preprint, Zenodo, 2026. https://doi.org/10.5281/zenodo.23251313
+
+```bibtex
+@misc{zhang2026li2half,
+  author    = {Zhang, Ruiyi},
+  title     = {Irrationality of the dilogarithm at 1/2},
+  year      = {2026},
+  publisher = {Zenodo},
+  note      = {Preprint},
+  doi       = {10.5281/zenodo.23251313},
+  url       = {https://doi.org/10.5281/zenodo.23251313}
+}
+```
