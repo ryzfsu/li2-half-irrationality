@@ -1,0 +1,102 @@
+\section{Circle regularization and transfer from the tube}\label{sec:tube}
+
+Let \(T_\delta=\{z:\operatorname{dist}(z,\Gamma)\le\delta\}\). In
+\eqref{eq:contour-admissible} replace only the support condition on \(\nu\)
+by \(\operatorname{supp}\nu\subset T_\delta\). For \(0<\delta\le1/64\) we
+have the exact estimate
+\begin{equation}\label{eq:tube-transfer}
+ \inf_{T_\delta}\mathcal E\ge\alpha_\Gamma-300\delta.
+\end{equation}
+
+The proof covers the unrestricted contour self-energy. Let \(D\) be the
+interior of the ellipse. For a point \(z\) inside \(D\), let \(\omega_z\) be
+its interior harmonic measure on \(\Gamma\). Outside \(D\), use exterior
+harmonic measure with total mass one. At a boundary point use
+\(\delta_z\). Set
+\[
+ c=(A+B)/2,\quad d=(A-B)/2,\quad
+ F(w)=\xi+cw+d/w\quad(|w|\ge1).
+\]
+The factorization \(F(w_1)-F(w_2)=(w_1-w_2)(c-d/(w_1w_2))\) shows that
+\(F\) is one-to-one outside the unit disk. Let \(W\) be its inverse. Set
+\(e(z)=0\) inside the ellipse and \(e(z)=\log|W(z)|\) outside. The
+Green-function identity gives
+\begin{equation}\label{eq:tube-green}
+ U^{\omega_z}(x)\le K_0(z,x)+e(z),\qquad
+ I(\omega_z,\omega_w)\le K_0(z,w)+e(z)+e(w).
+\end{equation}
+For two interior points the first deficit is the interior Green function.
+For points on opposite sides it is zero. For two exterior points it is the
+nonnegative Green function of the exterior of the disk,
+\[
+ \log\left|\frac{W(z)\overline{W(x)}-1}{W(z)-W(x)}\right|.
+\]
+Its sign follows from
+\(|a\overline b-1|^2-|a-b|^2=(|a|^2-1)(|b|^2-1)\ge0\). At boundary points
+the identity in \eqref{eq:tube-green} is an equality. Integrating it
+against \(\omega_w\) proves the two-sweep inequality. These identities also
+follow by Dirichlet uniqueness after subtracting the Green pole, including
+the growth term at infinity. Integrable logarithms and limiting arguments
+cover boundary points and arbitrary finite-energy measures.
+
+If \(z\in T_\delta\) is exterior, the factorization gives
+\(\operatorname{dist}(z,\Gamma)\ge B(|W(z)|-1)\). Hence
+\begin{equation}\label{eq:tube-e}
+ 0\le e(z)\le\delta/B.
+\end{equation}
+
+Let \(q(z)=1-(\Re z-\xi)^2/A^2-(\Im z)^2/B^2\). On \(D\),
+\(|\nabla q|\le2/B\). For \(x\in[0,2]\), \(q(x)>1/5\). A point in the inner
+\(\delta\)-collar has \(q(z)\le2\delta/B<1/8\). The level set \(q=1/8\) has
+distance more than \(1/32\) from \([0,2]\). By domain monotonicity the
+interior Green function is at most \(\log160<6\) there. The superharmonic
+barrier \(48q\) dominates it on both boundaries of the collar. By the
+maximum principle,
+\begin{equation}\label{eq:tube-gD}
+ g_D(z,x)\le96\delta/B
+       \quad(z\in D\cap T_\delta,\ x\in[0,2]).
+\end{equation}
+
+Put \(f=A_0-\phi\). Let \(z\) be interior. Sweeping the positive-source
+logarithms in \(A_0\) increases their sum by at most \(3\cdot96\delta/B\).
+The linear part of \(\phi\) keeps its mean. By \eqref{eq:tube-green}, the
+logarithmic-potential part of \(\phi\) has the favorable sign in \(-\phi\).
+Thus \(\int f\,d\omega_z-f(z)\le288\delta/B\). Now let \(z=F(w)\) be
+exterior. Its mean coordinate is \(\xi+c/\overline w+d/w\), at distance at
+most \((A+B)(|w|-1)\) from \(z\). The change in \(A_0\) is exactly
+\(-3e(z)\). The remaining terms give the smaller bound
+\([1/2+(A+B)\log2]\delta/B<3\delta/B\). Hence, for the swept measure
+\(\nu^\#=\int\omega_z\,d\nu(z)\) of mass \(s\),
+\[
+ \int f\,d\nu^\#\le\int f\,d\nu+288s\delta/B.
+\]
+
+Put \(b=\int e\,d\nu\). The changed interaction energies in
+\eqref{eq:contour-energy} increase by at most
+\(2sb+2(1-s)b+b=3b\le3s\delta/B\). Hence
+\[
+ \mathcal E(\kappa+\nu^\#,\mu)
+  \le\mathcal E(\kappa+\nu,\mu)+(291/B)s\delta
+  <\mathcal E(\kappa+\nu,\mu)+300\delta.
+\]
+This proves \eqref{eq:tube-transfer}, uniformly for every frequency measure
+on the full half-line and every allowed pinned/contour mass split.
+
+Let \(z_1,\ldots,z_d\in\Gamma\). Let \(\sigma_{z,\delta}\) be probability
+arclength on the circle of radius \(\delta\) about \(z\). Set
+\(\nu_\delta=m^{-1}\sum_{a=1}^d\sigma_{z_a,\delta}\). The circle mean
+identity \(\int\log|x-z-\delta e^{iu}|\,du/(2\pi)=\log\max(|x-z|,\delta)\)
+implies
+\begin{equation}\label{eq:tube-circle}
+ \frac1{m^2}\sum_{a\ne b}K_0(z_a,z_b)
+ \ge I(\nu_\delta)-\frac d{m^2}\log(1/\delta).
+\end{equation}
+The mixed potentials from \([0,2]\) and \((-\infty,-1/2]\) are harmonic on
+these disks. The function \(\phi\) is subharmonic, also at the interior of
+its zero segment. So the circular mean of the contour field \(f\) is at
+most its central value. Take \(\delta=m^{-2}\) and \(m\ge8\). Then
+\eqref{eq:tube-circle} and \eqref{eq:tube-transfer} together cost at most
+\(2d\log m+300\) in the unnormalized energy. Coincident particles give a
+zero Vandermonde, so no separation hypothesis is needed. A zero of \(F_g\)
+at finite \(m\) only decreases the absolute integrand. No two-sided
+logarithmic estimate at finite \(m\) is used.

@@ -1,0 +1,156 @@
+\section{A uniform estimate for finite configurations}\label{sec:configuration}
+
+This section passes from the exact integrand of Section~\ref{sec:contour}
+to the continuum energy. The estimate holds for every configuration,
+including arbitrarily close contour points and arbitrarily large
+frequencies. Let \(h=1/m\). For every selected pinned index and frequency
+use the cells
+\[
+ P_i=[i/m,(i+1)/m),\qquad Q_r=[(r-1)/m,r/m),
+\]
+\begin{equation}\label{eq:config-cells}
+ d\kappa=\sum_{i\in S}1_{P_i}dx,\qquad
+ d\mu=\sum_{r\in R}1_{Q_r}dt.
+\end{equation}
+These measures satisfy both density caps exactly. Their masses are \(k/m\)
+and one. The first frequency cell starts at \(1/2\), so no boundary cell is
+missing. Set \(\nu_\delta=m^{-1}\sum\sigma_{z_a/m,\delta}\) with
+\(\delta=m^{-2}\).
+
+The estimates below are elementary and one-sided in the useful direction.
+Their constants do not depend on the selected sets or on the largest
+frequency.
+
+\subsection{Scalar weights and fixed frequency products}
+The entropy bound for a binomial coefficient gives
+\[
+ \log U_i\le m\phi(i/m),\qquad \log w_r\le m\psi(r/m).
+\]
+Now \(\psi'(t)=\log(t/(t-1/2))-\log2\) and
+\(\int_{1/2}^1(\psi')_+dt=(1/2)\log2\). Summing endpoint-to-cell
+differences over any disjoint collection of cells gives
+\begin{equation}\label{eq:config-psi}
+ m\sum_{r\in R}\psi(r/m)-m^2\int\psi\,d\mu
+ \le (m/2)\log2.
+\end{equation}
+The field \(B_0\) is increasing, which is favorable for its negative sign.
+For the fixed lattice denominator, monotone quadrature gives
+\begin{equation}\label{eq:config-Bzero}
+ 0\le mB_0(t)-\sum_{i\in I_m}\log(t+i/m)
+                   -\sum_{j\in J_m}\log(t+j/m)
+ \le\log(35/3),\qquad t\ge1/2.
+\end{equation}
+Hence the frequency one-body error is at most
+\(m(\log(35/3)+(1/2)\log2)\) on the entire half-line.
+
+\subsection{Pinned denominators}
+Take an interval of \(N\) consecutive sites, starting at \(a\) and
+containing \(i\). Put \(n_L=i-a\) and \(n_R=a+N-1-i\). The omitted-site
+product satisfies
+\begin{equation}\label{eq:config-pinned}
+ \log(n_L!n_R!)-(N-1)\log m
+ -m\int_{a/m}^{(a+N)/m}\log|i/m-y|dy
+ \ge\log\frac{m}{n_R+1}.
+\end{equation}
+For the proof, compare monotone logarithmic sums with the integrals on each
+side of \(i\). On the right use \(\log(n_R!)\ge n_R\log n_R-n_R\) and
+\(n_R\log(1+1/n_R)\le1\); the case of zero is direct. The \(I_m\)
+contribution is nonnegative. The \(J_m\) contribution is at least
+\(-\log2\). Also \(\int_E|(\phi-A_0)'|\le\log168\), with contributions at
+most \(\log6\), \(2\log2\) and \(\log7\). Hence the pinned one-body cost is
+at most \(m\log336\).
+
+\subsection{Real self-cells and the fixed Vandermonde}
+Put
+\[
+ H(x)=\tfrac12x^2\log|x|-\tfrac34x^2\quad(x\ne0),\qquad H(0)=0.
+\]
+At lattice distance \(d\ge1\), let
+\[
+ J_d=\int_0^1\int_0^1\log|d+u-v|\,du\,dv,
+ \quad e_d=\log d-J_d\ge0.
+\]
+Since \(H''(x)=\log|x|\), we have \(J_d=H(d+1)+H(d-1)-2H(d)\). Therefore
+\(e_1=3/2-2\log2\), and for \(d\ge2\)
+\[
+ e_d=\sum_{j\ge1}\frac1{j(2j+1)(2j+2)d^{2j}}
+ \le\frac1{12d(d-1)}.
+\]
+By telescoping and Stirling's formula,
+\(\sum_{d\ge1}e_d=(1/2)\log(2\pi)-3/4\). Each selected lattice site has at
+most two other sites at a given distance. A single self-cell has log
+average \(-\log m-3/2\). Hence any \(n\) distinct lattice sites satisfy
+\begin{equation}\label{eq:config-self}
+ \sum_{a\ne b}\log|x_a-x_b|
+ \le m^2\iint\log|x-y|\,d\lambda(x)d\lambda(y)
+                        +n(\log m+\log(2\pi)),
+\end{equation}
+where \(\lambda\) is the union-of-cells measure. This uses no bound on the
+range of sites. The pinned and frequency interactions together cost at most
+\(2m(\log m+\log(2\pi))\). The fixed \(\Delta(I_m)^2\Delta(J_m)\) costs at
+most the same amount, with its leading constant as in
+Section~\ref{sec:contour}.
+
+\subsection{Mixed cells}
+The exact ellipse clearances are
+\[
+ d_+=\operatorname{dist}(\Gamma,[0,2])=751/5000,
+ \qquad d_-=\operatorname{dist}(\Gamma,(-\infty,-1/2])=1749/5000.
+\]
+They follow by minimizing the quadratic distance in \(\cos u\). The left
+vertex is the closest point to the first interval. The mean cell
+displacement is \(h/2\). The pinned--contour interaction costs at most
+\(m/d_+\). The contour--frequency interaction costs at most \(m/(2d_-)\),
+and the fixed contour denominators at most \(3m/(2d_+)\). The
+pinned--frequency cell displacements are centered. By Taylor's inequality,
+with \(i/m+r/m\ge3/4\) and \(h\le1/4\), their total loss is at most
+\(1/3\). All bounds are uniform in the contour mass. They use no contour
+density or separation assumption.
+
+\subsection{Finite contour product}
+For every complex \(z\),
+\begin{equation}\label{eq:config-Fg}
+ \log|F_g(mz)|\le m\phi(z)+b_m,\qquad
+ b_m=5(1+2\log2)+4(1+\log(g+1)).
+\end{equation}
+The proof also covers a zero segment crossing the contour. Write the cell
+discrepancy as \(D(w)=\log|w|-\int_0^1\log|w-u|du\). If \(|w|\le2\), then
+\(D(w)\le1+2\log2\). If \(|w|>2\), then \(D(w)\le2/|w|\). At most five
+indices have \(|\Re(mz)+q|\le2\). On both remaining sides the reciprocal
+sums are at most \(4(1+\log(g+1))\). The denominator \(g!\) has the
+favorable monotone quadrature sign. This proves \eqref{eq:config-Fg}. A
+zero gives \(-\infty\) and is harmless. The circle comparison of
+Section~\ref{sec:tube} then costs at most \(2m\log m\) and puts the contour
+particles on \(T_{m^{-2}}\).
+
+Insert these estimates into the absolute value of
+\eqref{eq:contour-signed}. Discard the favorable factors \(m^{-2m-2d}\) and
+\(\ell^k\le1\). This gives
+\[
+ \log Q_m(S,R,Z)\le
+      -m^2\mathcal E(\kappa+\nu_\delta,\mu)+D_{\rm tube}(m),
+\]
+\[
+\begin{split}
+ D_{\rm tube}(m)={}&4m(\log m+\log(2\pi))+2m\log m+mb_m+\tfrac13\\
+ &+m\left[\log336+\log(35/3)+\tfrac12\log2
+                            +\frac5{2d_+}+\frac1{2d_-}\right].
+\end{split}
+\]
+The symmetrization factor is not part of \(Q_m\); it enters at the
+integration. Since \(g+1\le m\) for \(m\ge4\), the explicit constants give
+\[
+ D_{\rm tube}(m)\le10m\log m+c_*m+\tfrac13,
+\]
+\begin{equation}\label{eq:config-cstar}
+ c_*=4\log(2\pi)+9+\tfrac{21}{2}\log2+
+         \log336+\log(35/3)+\frac5{2d_+}+\frac1{2d_-}
+       <49.979.
+\end{equation}
+The rational-series checks in the supplementary materials prove this
+rounded inequality. By the tube estimate and \eqref{eq:alpha-lower}, for
+every \(R\) and every contour configuration,
+\begin{equation}\label{eq:config-final}
+ \log Q_m\le-\alpha m^2+10m\log m+c_*m+300+\tfrac13,
+       \qquad m\ge8,\quad4\mid m.
+\end{equation}

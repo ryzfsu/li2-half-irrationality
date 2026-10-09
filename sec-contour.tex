@@ -1,0 +1,164 @@
+\section{Exact contour expansion and constrained energy}\label{sec:contour}
+
+Set
+\[
+ \Gamma=\{\xi+A\cos u+iB\sin u:0\le u<2\pi\},\quad
+ (\xi,A,B)=\left(\frac{11281}{10000},
+                \frac{12783}{10000},\frac{229}{200}\right).
+\]
+It encloses \([0,2]\). Before scaling, the contour in this section is
+\(m\Gamma\). The entire function \(F_g(z)=2^z\binom{z+g}{g}\) satisfies
+\begin{equation}\label{eq:contour-C}
+ C^{(g)}_{ij}=-\oint_{m\Gamma}
+       \frac{F_g(z)}{(z-i)(z-j)}\frac{dz}{2\pi i}
+        +\ell U_i[i=j].
+\end{equation}
+For distinct poles this is the residue formula for divided differences. At
+the double pole \(F_g'(i)=U_i(\ell+\sum_{s=1}^g1/(i+s))\), which gives
+\eqref{eq:contour-C} on the diagonal too. No sine factor occurs.
+
+Write \(K(x,y)=1/(x+y)\) and \(\Delta(X)=\prod_{a<b}(x_b-x_a)\) for
+increasing real lists. The same product defines \(\Delta\) on complex lists.
+Cauchy--Binet applied to \eqref{eq:source-N} gives the absolutely
+convergent expansion
+\begin{equation}\label{eq:contour-CB}
+ G_m(\beta)=(-1)^{m(g+1)}
+ \sum_{\substack{R\subset\{g+1,g+2,\ldots\}\\|R|=m}}
+  \Bigl(\prod_{r\in R}w_r\Bigr)
+ \det K_{I_m,R}\det\begin{bmatrix}C^{(g)}\\K_{R,J_m}\end{bmatrix}.
+\end{equation}
+The sum runs over subsets, so no \(m!\) occurs. For fixed \(m\) the weights
+\(w_r\) decay exponentially and both minors are bounded. Finite truncation
+and passage to the limit justify the expansion.
+
+Select the diagonal term of \eqref{eq:contour-C} in the rows \(S\subset
+I_m\). Put \(k=|S|\), \(d=m-k\), and let \(Z=(z_1,\ldots,z_d)\) lie on
+\(m\Gamma\). The selected columns are exactly \(S\). Andr\'eief's
+identity for the remaining rows gives the absolute integrand
+\begin{equation}\label{eq:contour-Q}
+ \begin{aligned}
+ Q_m(S,R,Z)={}&\Bigl(\prod_{i\in S}\ell U_i\Bigr)
+  \Bigl(\prod_{r\in R}w_r\Bigr)\Bigl(\prod_{z\in Z}|F_g(z)|\Bigr)\\
+ &\times\left|\det K_{I_m\setminus S,-Z}\,\det K_{I_m,R}
+               \,\det K_{(-Z,R),J_m\setminus S}\right|.
+ \end{aligned}
+\end{equation}
+The measure is \(\prod|dz|/(2\pi)\) and the symmetrization factor is
+\(1/d!\). By the triangle inequality \(|G_m(\beta)|\le E_m(\infty)\), where
+\begin{equation}\label{eq:contour-E}
+ E_m(H)=\sum_{S\subset I_m}\frac1{d!}
+   \int_{(m\Gamma)^d}
+    \sum_{\substack{|R|=m\\g<r\le H}}Q_m(S,R,Z)
+                         \prod_{z\in Z}\frac{|dz|}{2\pi}.
+\end{equation}
+
+The signed product formula fixes every quadratic-scale normalization. Put
+\(n=m/4\), \(Y=S\uplus Z\),
+\[
+ D_m(a)=(a-n)!(n+m-1-a)!a!(2m-1-a)!,
+\]
+\[
+ P_m(z)=\prod_{a\in I_m\uplus J_m}(z-a),\qquad
+ Q_m^*(r)=\prod_{a\in I_m\uplus J_m}(r+a).
+\]
+Then
+\begin{equation}\label{eq:contour-signed}
+\begin{split}
+ G_m(\beta)={}&\Delta(I_m)^2\Delta(J_m)
+ \sum_{S\subset I_m}\frac{(-1)^{k(n+1)}\ell^k}{d!}
+ \sum_R\prod_{a\in S}\frac{U_a}{D_m(a)}\prod_{r\in R}w_r\\
+ &\quad\times\oint_{(m\Gamma)^d}
+ \frac{\Delta(Y)^2\Delta(R)^2\prod_{y\in Y,r\in R}(y+r)}
+      {\prod_{z\in Z}P_m(z)\prod_{r\in R}Q_m^*(r)}
+                  \prod_{z\in Z}F_g(z)\frac{dz}{2\pi i}.
+\end{split}
+\end{equation}
+In this formula the three Cauchy determinants give the squared
+Vandermondes and the single frequency cross product. The conversion
+\[
+ \Delta(I_m\setminus S)\Delta(J_m\setminus S)
+ =\frac{\Delta(I_m)\Delta(J_m)\Delta(S)^2}
+              {\prod_{a\in S}D_m(a)}
+\]
+restores the removed fixed factors. Each pinned index occurs twice in a
+contour denominator; restoring both gives \((z-a)^2\). Restoring its one
+removed frequency factor gives \((r+a)\). Since \(m\) is even, the Laplace
+sign, the minus signs from \eqref{eq:contour-C} and the Cauchy signs reduce
+to \((-1)^{k(n+1)}\). The upper estimate does not use the signs.
+
+Scale all particle positions by \(m\). Write \(E=[1/4,5/4]\), and define
+\[
+ \begin{aligned}
+ A_0(z)&=\int_E\log|z-x|\,dx+\int_0^2\log|z-x|\,dx,\\
+ B_0(t)&=\int_E\log(t+x)\,dx+\int_0^2\log(t+x)\,dx.
+ \end{aligned}
+\]
+\[
+ \phi(z)=\Re(z)\ell+\int_0^{1/2}\log|z+s|\,ds
+                         +\tfrac12-\tfrac12\log(1/2),
+\]
+\begin{equation}\label{eq:contour-psi}
+ \psi(t)=t\log t-(t-1/2)\log(t-1/2)
+                           -\tfrac12\log(1/2)-t\ell.
+\end{equation}
+The integral defines \(\phi\) also across the negative real axis, with
+\(0\log 0=0\). So \(\phi\) has no branch ambiguity where \(\Gamma\) crosses
+the interior of the zero segment \([-1/2,0]\).
+
+Let \(K_0(z,w)=-\log|z-w|\), and write
+\[
+ I(\sigma,\tau)=\iint K_0(z,w)\,d\sigma(z)\,d\tau(w),
+ \qquad I(\sigma)=I(\sigma,\sigma).
+\]
+For a measure \(\mu\) on the positive real line, let
+\(\mu^-=(-\mathrm{id})_\#\mu\) be its reflection onto the negative real line.
+The admissible measures are those with
+\begin{equation}\label{eq:contour-admissible}
+ \begin{aligned}
+ 0&\le\kappa\le1_E\,dx,\quad \nu\ge0,\quad
+   \operatorname{supp}\nu\subset\Gamma,\quad |\kappa|+|\nu|=1,\\
+ 0&\le\mu\le1_{[1/2,\infty)}\,dt,\quad |\mu|=1.
+ \end{aligned}
+\end{equation}
+The contour density has no cap, and \(|\kappa|\) is not prescribed.
+With \(\eta=\kappa+\nu\), the energy is
+\begin{equation}\label{eq:contour-energy}
+ \begin{aligned}
+ \mathcal E(\eta,\mu)={}&C_0+\int(A_0-\phi)\,d\eta
+            +\int(B_0-\psi)\,d\mu\\
+            &+I(\eta)+I(\mu)+I(\eta,\mu^-),\\
+ C_0={}&\tfrac92-2\log2.
+ \end{aligned}
+\end{equation}
+The pinned--contour interaction has coefficient two. Each
+companion--frequency interaction has coefficient one. These coefficients
+come from \eqref{eq:contour-signed}. For the fixed Vandermonde,
+\[
+ \log(\Delta(I_m)^2\Delta(J_m))
+ =3m^2\log m+(2\log2-9/2)m^2+O(m\log m).
+\]
+Here \(\int_0^b\!\int_0^b\log|x-y|\,dx\,dy=b^2\log b-3b^2/2\). Twice the
+half-energy for length one plus the half-energy for length two gives the
+constant. Every \(m^2\log m\) term in \eqref{eq:contour-signed} cancels, for
+every pinned mass. The remaining homogeneous factor is \(m^{-2m-2d}\)
+before the contour differentials and \(m^{-2m-d}\) with them.
+
+To define \eqref{eq:contour-energy} without \(\infty-\infty\), put
+\(\ell_1(t)=\log(1+t)\). Write its frequency-dependent part as
+\begin{equation}\label{eq:contour-regularized}
+ \int(B_0-\psi-3\ell_1)\,d\mu
+ +\iint\log\frac{(1+t)(1+s)}{|t-s|}\,d\mu(t)d\mu(s)
+ +\iint\log\frac{1+t}{|z+t|}\,d\eta(z)d\mu(t).
+\end{equation}
+The self kernel is nonnegative. The mixed kernel is bounded on the compact
+companion support times the half-line. The first field is
+\(t\log2-\frac12\log t+O(1)\). Hence an infinite first moment gives energy
+\(+\infty\). The same definition works on a sufficiently small tube about
+\(\Gamma\). Define
+\begin{equation}\label{eq:contour-alpha}
+ \alpha_\Gamma=\inf\{\mathcal E(\kappa+\nu,\mu):
+   \eqref{eq:contour-admissible}\}.
+\end{equation}
+This is the variational problem on the full half-line. An admissible trial
+measure gives only an upper bound for this infimum. The lower bound comes
+from the dual certificate in Section~\ref{sec:dual}.

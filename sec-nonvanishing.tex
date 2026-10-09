@@ -1,0 +1,74 @@
+\section{Nonvanishing on a prime-power sequence}\label{sec:nonvanishing}
+
+Fix \(M\in4\mathbb N\), set \(h=M/2\), and choose an odd prime \(p>2M+h\).
+For every \(k\ge0\) put \(q=p^k\), \(m=Mq\), \(g=hq\). The scaled pencil
+satisfies
+\begin{equation}\label{eq:nv-pencil}
+\begin{aligned}
+ \mathcal H_k(X)&:=q^{3m}G_m(X/q^2)
+ =\det\begin{bmatrix}qC^{(g)}\\q^2B^{(g)}-XA^{(g)}\end{bmatrix}
+ \in\mathbb Z_{(p)}[X],\\
+ \overline{\mathcal H_k}(X)&=\overline{G_M}(X)^q.
+\end{aligned}
+\end{equation}
+Every nonzero denominator in the formulas of Section~\ref{sec:source} has
+absolute value less than \((2M+h)q<pq\). So \(q/d\) is \(p\)-integral. It
+reduces to zero unless \(q\mid d\), and to \(e^{-1}\) at \(d=eq\),
+\(0<|e|<p\). Likewise \(q^2/(d_1d_2)\) vanishes on reduction unless both
+denominators are divisible by \(q\).
+
+Write \(i=aq+v\), \(j=bq+w\), \(0\le v,w<q\). Lucas and Frobenius give
+\begin{equation}\label{eq:nv-lucas}
+ \binom{(a+h)q+v}{hq}\equiv\binom{a+h}{h},\qquad
+ U_{aq+v}^{(hq)}\equiv2^v U_a^{(h)}\pmod p.
+\end{equation}
+Multiply by \(q\). In the first sum in \(t_i\), only the denominator
+indices \(dq\) with \(1\le d\le a\) survive. In the second, only \(dq\) with
+\(1\le d\le h\) survive. Since \(q\) is odd, parity is preserved. Also
+\(2^{dq}-1\equiv2^d-1\pmod p\), and Lucas reduces the binomial to the seed
+one. Therefore \(qt_{aq+v}^{(hq)}\equiv2^vt_a^{(h)}\pmod p\). If \(v\ne
+w\), then \(q\nmid j-i\), so both \(qC_{ij}\) and \(q^2B_{ij}\) reduce to
+zero. If \(v=w\) and \(a\ne b\), the divided differences reduce to \(2^v\)
+times their seed entries.
+
+On the diagonal, the multiples of \(q\) in \([i+1,i+hq]\) are exactly
+\((a+1)q,\ldots,(a+h)q\). This holds even when \(v=0\) or \(q-1\). Thus
+\(qC_{ii}\equiv2^vC_{aa}^{(h)}\). In the first diagonal \(B\) sum only the
+squared denominators \((dq)^2\) survive. In the double sum both indices must
+be multiples of \(q\), with \(2\le d\le h\), \(1\le e<d\). Lucas, parity and
+Frobenius reduce these terms to the seed double sum. Hence
+\(q^2B_{ii}\equiv2^vB_{aa}^{(h)}\) and \(A_{ii}\equiv2^vA_{aa}^{(h)}\). All
+scaled entries are integral before reduction. The argument holds for each
+\(k\) directly, without a recurrence in \(k\).
+
+The window endpoints are multiples of \(q\). Grouping rows and columns by
+residue gives, in each residue block, the seed pencil times \(2^v\). The
+row and column permutations are the same transpose permutation of a
+\(2M\times q\) array, so their signs cancel. The product of the scalar
+block determinants is \(2^{Mq(q-1)}\equiv1\pmod p\), because
+\(p-1\mid q-1\). This proves \eqref{eq:nv-pencil}, including the exact
+scalar and sign.
+
+The modular data in the supplementary materials show that for \(M=32\),
+\(p=83\) the matrix of Section~\ref{sec:source} satisfies
+\begin{equation}\label{eq:nv-seed}
+ \det\begin{bmatrix}C^{(16)}\\B^{(16)}\end{bmatrix}
+                           \equiv30\pmod{83}.
+\end{equation}
+This is a finite \(64\times64\) matrix check. The saved entries, row swaps
+and unnormalized Gaussian pivots determine the determinant by integer
+modular arithmetic. The code also rebuilds the matrix with exact rationals,
+and independently by a modular Pascal recurrence. No larger determinant is
+computed.
+
+Let \(M=32,p=83\), and fix \(t\in\mathbb Q_{83}\) with
+\(2k+v_{83}(t)>0\). Then \(X=q^2t\) lies in \(83\mathbb Z_{83}\). By
+\eqref{eq:nv-pencil} and \eqref{eq:nv-seed},
+\begin{equation}\label{eq:nv-final}
+ q^{3m}G_m(t)=\mathcal H_k(q^2t)\equiv30^q=30\pmod{83},
+ \qquad v_{83}(G_{32\cdot83^k}(t))=-3k(32\cdot83^k).
+\end{equation}
+This proves \eqref{eq:nonvanishing}. For \(t=a/b\) in lowest terms,
+\(k\ge\lfloor v_{83}(b)/2\rfloor+1\) suffices; \(v_p(0)=+\infty\) covers
+zero. The sequence does not depend on \(t\), and every index lies in
+\(32\mathbb N\).

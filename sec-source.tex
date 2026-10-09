@@ -1,0 +1,278 @@
+\section{Rational matrices and parameter derivatives}\label{sec:source}
+
+Fix an integer $g\ge0$. All indices $i,j$ are nonnegative integers. Empty
+sums are zero. Put
+\[
+U_i=2^i\binom{i+g}{g},\qquad
+t_i=\sum_{r=1}^{i}\frac{U_{i-r}}r
+ +2^i\sum_{s=1}^{g}\frac{(-1)^{s-1}}s
+       \binom{i+g}{g-s}(2^s-1).
+\]
+For $i\ne j$ define
+\[
+C^{(g)}_{ij}=\frac{U_i-U_j}{j-i},\qquad
+B^{(g)}_{ij}=\frac{t_i-t_j}{j-i},\qquad
+A^{(g)}_{ij}=0.
+\]
+The diagonal entries are
+\begin{equation}\label{eq:source-diag-AC}
+A^{(g)}_{ii}=U_i,\qquad
+C^{(g)}_{ii}=-U_i\sum_{s=1}^{g}\frac1{i+s},
+\end{equation}
+and
+\begin{equation}\label{eq:source-diag-B}
+B^{(g)}_{ii}
+ =\sum_{r=1}^{i}\frac{U_{i-r}}{r^2}
+ -2^i\sum_{s=2}^{g}\frac{(-1)^s}{s}\binom{i+g}{g-s}
+       \sum_{r=1}^{s-1}\frac{2^r-1}{r}.
+\end{equation}
+These are rational matrices. Their diagonals are defined separately from
+the off-diagonal quotients.
+
+For real $a>1$, let
+\[
+\begin{aligned}
+t_i^0(a)&=\sum_{r=1}^{i}\frac{a^{i-r}}r,&
+b_i^0(a)&=\sum_{r=1}^{i}\frac{a^{i-r}}{r^2},\\
+L(a)&=\log(1-1/a)
+     =-\sum_{r=1}^{\infty}\frac{a^{-r}}r,&
+\beta(a)&=\operatorname{Li}_2(1/a)
+     =\sum_{r=1}^{\infty}\frac{a^{-r}}{r^2}.
+\end{aligned}
+\]
+The logarithm is real. Define
+\[
+A^0_{ij}(a)=a^i\delta_{ij}.
+\]
+\[
+C^0_{ij}(a)=
+\begin{cases}
+\dfrac{a^i-a^j}{j-i},&i\ne j,\\[4pt]
+0,&i=j,
+\end{cases}
+\]
+\[
+B^0_{ij}(a)=
+\begin{cases}
+\dfrac{t_i^0(a)-t_j^0(a)}{j-i},&i\ne j,\\[4pt]
+b_i^0(a),&i=j,
+\end{cases}
+\]
+where $\delta_{ij}$ is the Kronecker delta.
+
+\begin{lemma}\label{lem:source-mellin}
+For $a>1$ and $i,j\ge0$,
+\begin{equation}\label{eq:source-mellin}
+\begin{aligned}
+M_{ij}(a)
+&:=B^0_{ij}(a)+L(a)C^0_{ij}(a)-\beta(a)A^0_{ij}(a)\\
+&=-\sum_{r=1}^{\infty}\frac{a^{-r}}{(i+r)(j+r)}.
+\end{aligned}
+\end{equation}
+Equivalently,
+\[
+M_{ij}(a)=-\int_0^1\!\!\int_0^1
+                  \frac{x^i y^j}{a-xy}\,dy\,dx.
+\]
+\end{lemma}
+
+\begin{proof}
+Split off the first $i$ terms of the defining series. Then
+\[
+t_i^0(a)+a^iL(a)
+ =-\sum_{r=1}^{\infty}\frac{a^{-r}}{i+r},\qquad
+b_i^0(a)-a^i\beta(a)
+ =-\sum_{r=1}^{\infty}\frac{a^{-r}}{(i+r)^2}.
+\]
+For $i\ne j$, take the difference of the first identity at $i$ and at $j$,
+and divide by $j-i$. By
+\[
+\frac1{j-i}\left(\frac1{i+r}-\frac1{j+r}\right)
+ =\frac1{(i+r)(j+r)},
+\]
+this proves \eqref{eq:source-mellin} off the diagonal. The second identity
+proves it on the diagonal, where $C^0_{ii}=0$.
+
+Finally,
+\[
+\frac1{a-xy}=\sum_{r=1}^{\infty}a^{-r}(xy)^{r-1}.
+\]
+For fixed $a>1$ this series converges uniformly and absolutely on
+$[0,1]^2$. Termwise integration gives the integral formula.
+\end{proof}
+
+Put
+\[
+D_g f(a)=\frac1{g!}\frac{\partial^g}{\partial a^g}
+                         \bigl(a^g f(a)\bigr).
+\]
+For every integer $r\ge1$,
+\[
+D_g a^{-r}
+ =\frac1{g!}\prod_{h=0}^{g-1}(g-r-h)\,a^{-r}
+ =
+\begin{cases}
+0,&1\le r\le g,\\[2pt]
+(-1)^g\binom{r-1}{g}a^{-r},&r>g.
+\end{cases}
+\]
+This is the $g$th derivative of $a^{g-r}$ divided by $g!$. For
+$1\le r\le g$ the polynomial $a^{g-r}$ has degree less than $g$. For $r>g$
+the $g$ negative factors give the binomial coefficient. For $g=0$ the
+product is empty and equals one.
+
+Fix a compact subinterval of $(1,\infty)$. On it, the derivatives through
+order $g$ of the summands in $a^gM_{ij}(a)$ are bounded by $C(1+r)^gq^r$.
+Here $C>0$ and $0<q<1$ do not depend on $r$. Hence
+\eqref{eq:source-mellin} may be differentiated termwise, and
+\[
+(D_gM_{ij})(a)
+ =(-1)^{g+1}\sum_{r>g}
+       \frac{\binom{r-1}{g}a^{-r}}{(i+r)(j+r)}.
+\]
+Put
+\begin{equation}\label{eq:source-N}
+N_{ij}:=(D_gM_{ij})(2)
+ =(-1)^{g+1}\sum_{r>g}\frac{w_r}{(i+r)(j+r)},
+\qquad
+w_r=\binom{r-1}{g}2^{-r}.
+\end{equation}
+The weights are positive for $r>g$, and the series converges absolutely.
+
+Next we find the rational coefficients of $D_gM$. For $a>1$ put
+\[
+U_i(a)=a^i\binom{i+g}{g},\qquad
+Q_s(a)=\left(\frac{a}{a-1}\right)^s-1\quad(s\ge1).
+\]
+Define $t_i^{(g)}(a)$, $A^{(g)}_{ij}(a)$, $B^{(g)}_{ij}(a)$ and
+$C^{(g)}_{ij}(a)$ by the same finite formulas. In them replace $U_n$ by
+$U_n(a)$, $2^n$ by $a^n$, and each factor $2^s-1$ by $Q_s(a)$. Thus
+\[
+t_i^{(g)}(a)
+ =\sum_{r=1}^{i}\frac{U_{i-r}(a)}r
+  +a^i\sum_{s=1}^{g}\frac{(-1)^{s-1}}s
+          \binom{i+g}{g-s}Q_s(a).
+\]
+These are rational functions of $a$, regular for $a>1$. At $a=2$ they equal
+the rational quantities defined above.
+
+\begin{lemma}\label{lem:source-bank}
+For every $g\ge0$, $i,j\ge0$ and $a>1$,
+\[
+(D_gM_{ij})(a)
+ =B^{(g)}_{ij}(a)+L(a)C^{(g)}_{ij}(a)
+                   -\beta(a)A^{(g)}_{ij}(a).
+\]
+\end{lemma}
+
+\begin{proof}
+For every $C^g$ function $f$, Leibniz's rule gives
+\[
+D_g(a^if(a))
+ =\sum_{s=0}^{g}\binom{i+g}{g-s}
+                  a^{i+s}\frac{f^{(s)}(a)}{s!}.
+\]
+In particular $D_ga^i=U_i(a)$. As $L(a)=\log(a-1)-\log a$, for $s\ge1$
+\[
+\frac{a^sL^{(s)}(a)}{s!}
+ =\frac{(-1)^{s-1}}sQ_s(a).
+\]
+Differentiating the absolutely convergent series for $\beta$ gives
+\[
+\beta'(a)
+ =-\frac1a\sum_{r=1}^{\infty}\frac{a^{-r}}r
+ =\frac{L(a)}a.
+\]
+Leibniz's rule for the $(s-1)$st derivative of $L(a)/a$ gives
+\[
+\begin{aligned}
+\frac{a^s\beta^{(s)}(a)}{s!}
+ &=\frac1s\sum_{r=0}^{s-1}
+       (-1)^{s-1-r}\frac{a^rL^{(r)}(a)}{r!}\\
+ &=\frac{(-1)^{s-1}}s
+       \left(L(a)-\sum_{r=1}^{s-1}\frac{Q_r(a)}r\right).
+\end{aligned}
+\]
+
+Hence
+\[
+D_g\bigl(t_i^0(a)+a^iL(a)\bigr)
+ =t_i^{(g)}(a)+L(a)U_i(a).
+\]
+Divided differences in $i,j$ prove the lemma for $i\ne j$, including
+$A^{(g)}_{ij}(a)=0$.
+
+On the diagonal $M_{ii}=b_i^0-a^i\beta$, and the same calculation gives
+\[
+\begin{aligned}
+(D_gM_{ii})(a)
+={}&\sum_{r=1}^{i}\frac{U_{i-r}(a)}{r^2}
+       -U_i(a)\beta(a)\\
+ &-a^iL(a)\sum_{s=1}^{g}
+       \frac{(-1)^{s-1}}s\binom{i+g}{g-s}\\
+ &-a^i\sum_{s=2}^{g}\frac{(-1)^s}{s}\binom{i+g}{g-s}
+            \sum_{r=1}^{s-1}\frac{Q_r(a)}r.
+\end{aligned}
+\]
+The first and last sums give $B^{(g)}_{ii}(a)$, with the sign in
+\eqref{eq:source-diag-B}. For the logarithmic coefficient we use
+\[
+\sum_{s=1}^{g}\frac{(-1)^{s-1}}s\binom{i+g}{g-s}
+ =\binom{i+g}{g}\sum_{s=1}^{g}\frac1{i+s}.
+\]
+For its proof, differentiate at $x=0$ the polynomial identity
+\[
+\binom{i+g+x}{g}
+ =\sum_{s=0}^{g}\binom{i+g}{g-s}\binom{x}{s}.
+\]
+It holds for nonnegative integers $x$ by the binomial theorem, hence as a
+polynomial identity. By the product formula, the derivative of its left
+side at zero is $\binom{i+g}{g}\sum_{s=1}^{g}(i+s)^{-1}$. For $s\ge1$, the
+derivative of $\binom{x}{s}$ at zero is $(-1)^{s-1}/s$. This proves the
+equality, also when $g=0$.
+
+So the logarithmic coefficient is
+$-U_i(a)\sum_{s=1}^{g}(i+s)^{-1}=C^{(g)}_{ii}(a)$. The coefficient of
+$-\beta(a)$ is $U_i(a)=A^{(g)}_{ii}(a)$. This proves the diagonal case.
+\end{proof}
+
+Now let $m$ be a positive integer divisible by four. Set
+\[
+g=m/2,\qquad
+I_m=\{m/4,\ldots,5m/4-1\},\qquad
+J_m=\{0,\ldots,2m-1\}.
+\]
+Rows and columns are in increasing index order. The polynomial
+\eqref{eq:main-polynomial} is
+\[
+G_m(T)=
+\det\begin{bmatrix}
+C^{(g)}_{I_m,J_m}\\
+B^{(g)}_{I_m,J_m}-T A^{(g)}_{I_m,J_m}
+\end{bmatrix}.
+\]
+It lies in $\mathbb Q[T]$. Only the last $m$ rows depend on $T$, each
+affinely, so its degree is at most $m$.
+
+Put $\beta=\beta(2)=\operatorname{Li}_2(1/2)$ and $\ell=\log2$.
+As $L(2)=-\ell$, Lemma~\ref{lem:source-bank} gives
+\[
+N=B^{(g)}-\ell C^{(g)}-\beta A^{(g)}.
+\]
+In the determinant for $G_m(\beta)$, add $-\ell$ times each top row to the
+corresponding bottom row. This is left multiplication by
+\[
+\begin{bmatrix}
+\mathrm{Id}_m&0\\
+-\ell\,\mathrm{Id}_m&\mathrm{Id}_m
+\end{bmatrix},
+\]
+which has determinant one. Hence
+\begin{equation}\label{eq:source-determinant}
+G_m(\beta)=
+\det\begin{bmatrix}
+C^{(g)}_{I_m,J_m}\\
+N_{I_m,J_m}
+\end{bmatrix}.
+\end{equation}
+This row operation needs no rank or nonvanishing assumption.

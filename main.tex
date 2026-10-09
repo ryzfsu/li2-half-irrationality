@@ -1,0 +1,223 @@
+\documentclass{amsart}
+\usepackage{amssymb,mathtools,array,longtable,seqsplit}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\hypersetup{pdftitle={Irrationality of the dilogarithm at 1/2},pdfauthor={Ruiyi Zhang}}
+\setlength{\emergencystretch}{3em}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem{proposition}[lemma]{Proposition}
+\numberwithin{equation}{section}
+\numberwithin{table}{section}
+\newcommand{\Li}{\operatorname{Li}}
+\newcommand{\Res}{\operatorname*{Res}}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\fl}[1]{\lfloor #1\rfloor}
+\newcommand{\br}[1]{[\,#1\,]}
+
+\begin{document}
+\title{Irrationality of the dilogarithm at 1/2}
+\author{Ruiyi Zhang}
+\address{Independent Researcher, Columbia, Maryland, USA}
+\email{ryzfsu@gmail.com}
+\subjclass[2020]{Primary 11J72; Secondary 33B30}
+\keywords{dilogarithm, irrationality, determinant polynomials, logarithmic energy, interval certificates, prime-power congruences}
+\begin{abstract}
+We prove that $\operatorname{Li}_2(1/2)$ is irrational. Irrationality of
+$\operatorname{Li}_2(1/s)$ was known for integers $s\le-5$ and $s\ge6$ by
+work of Hata and of Rhin and Viola, and Prellberg recently proved it for
+$s=-4,5,-3$. The approximations come from determinants of moments of
+$1/(xy-2)$, differentiated $m/2$ times in the parameter. We bound their
+values by a logarithmic energy on an ellipse, certified by directed interval
+arithmetic. Valuations of binomial coefficients give a common denominator of
+the coefficients. A Lucas congruence modulo $83$ gives nonvanishing along
+$m=32\cdot83^k$. Three finite computations are part of the proof.
+\end{abstract}
+\maketitle
+
+\section{Introduction}\label{sec:introduction}
+
+For $|w|\le1$ let $\operatorname{Li}_2(w)=\sum_{n\ge1}w^n/n^2$. Hata
+\cite[Theorem~1.1]{Ha} proved that $\operatorname{Li}_2(1/s)$ is irrational
+for every integer $s\le-5$ and every $s\ge7$. Rhin and Viola adapted their
+permutation group method \cite{RV96} to the dilogarithm and settled $s=6$
+\cite{RV05}. They later treated negative arguments \cite{RV19}. Viola and
+Zudilin \cite{VZ} introduced a six-parameter family of double integrals. In
+2024 Calegari, Dimitrov and Tang \cite[Remark~2.8.2 and Section~15.2]{CDT}
+listed the integers still open: $s\in\{-4,-3,-2,2,3,4,5\}$. Prellberg's 2026
+preprint \cite{Pr} treats $s=-4,5,-3$. We prove the case $s=2$.
+
+Put
+\[
+ \beta=\operatorname{Li}_2(1/2)=\sum_{r=1}^{\infty}\frac{2^{-r}}{r^2},
+ \qquad \ell=\log 2.
+\]
+For each positive integer $m$ divisible by $4$, let
+\[
+ g=\frac m2,\qquad
+ I_m=\left[\frac m4,\frac{5m}4\right)\cap\mathbb Z,
+ \qquad J_m=[0,2m)\cap\mathbb Z.
+\]
+The rational matrices $A^{(g)},B^{(g)},C^{(g)}$ are defined in
+Section~\ref{sec:source}. Rows and columns are in increasing order. Set
+\begin{equation}\label{eq:main-polynomial}
+ G_m(T)=\det\begin{bmatrix}
+ C^{(g)}_{I_m,J_m}\\
+ B^{(g)}_{I_m,J_m}-T A^{(g)}_{I_m,J_m}
+ \end{bmatrix}\in\mathbb Q[T].
+\end{equation}
+Only the last $m$ rows depend on $T$, so $\deg G_m\le m$.
+
+\begin{theorem}\label{thm:main}
+The number $\operatorname{Li}_2(1/2)$ is irrational.
+\end{theorem}
+
+By the reflection formula \cite[\S25.12]{DLMF},
+$\operatorname{Li}_2(1/2)=\pi^2/12-\frac12\log^22$, so Theorem~\ref{thm:main} is
+equivalent to the irrationality of $\pi^2-6\log^22$.
+
+Theorem~\ref{thm:main} follows from three estimates for the polynomials
+\eqref{eq:main-polynomial}.
+
+\begin{proposition}\label{prop:main}
+For every $m\ge8$ with $4\mid m$,
+\begin{equation}\label{eq:analytic}
+ |G_m(\beta)|\le
+ \exp\left(-\alpha m^2+10m\log m+56m+301\right),
+ \qquad \alpha=\frac{1992909}{10^6}.
+\end{equation}
+For every positive $m$ divisible by $4$ there is a positive rational number
+ $D_m$ such that
+\begin{equation}\label{eq:integerizer}
+ D_mG_m(T)\in\mathbb Z[T],\qquad
+ \limsup_{\substack{m\to\infty\\4\mid m}}\frac{\log D_m}{m^2}
+ \le \tau<1.979.
+\end{equation}
+For every fixed $t\in\mathbb Q$,
+\begin{equation}\label{eq:nonvanishing}
+ G_{32\cdot83^k}(t)\ne0
+ \quad\text{if }k\ge0\text{ and }2k+v_{83}(t)>0,
+\end{equation}
+where $v_{83}(0)=+\infty$.
+\end{proposition}
+
+Section~\ref{sec:source} writes $G_m(\beta)$ as a determinant of rational
+series. Sections~\ref{sec:contour}--\ref{sec:frequency} prove
+\eqref{eq:analytic}. Section~\ref{sec:integerization} proves
+\eqref{eq:integerizer}, and Section~\ref{sec:nonvanishing} proves
+\eqref{eq:nonvanishing}. Theorem~\ref{thm:main} follows in
+Section~\ref{sec:proof}.
+
+Since $1.979-1.992909<0$, Theorem~\ref{thm:main} follows.
+
+Three finite computations are part of the proof (Appendix~\ref{app:ver}).
+Directed interval inequalities give the constant $\alpha$. Exact integer
+arithmetic gives the coefficient bounds. Modular arithmetic gives the seed
+congruence. The use of AI tools is described at the end of the paper.
+
+\input{sec-source}
+\input{sec-contour}
+\input{sec-tube}
+\input{sec-dual}
+\input{sec-config}
+\input{sec-frequency-tail}
+\input{sec-integerization}
+\input{sec-nonvanishing}
+
+\section{Proof of Theorem~\ref{thm:main}}\label{sec:proof}
+
+Suppose $\beta=a/b$ with coprime integers $a,b$ and $b>0$. Along
+$m=32\cdot83^k$, the condition in \eqref{eq:nonvanishing} holds for all large
+$k$. Since $\deg G_m\le m$ and $D_mG_m\in\mathbb Z[T]$,
+\[
+ Z_m=b^mD_mG_m(a/b)\in\mathbb Z\setminus\{0\}.
+\]
+For large $m$, \eqref{eq:integerizer} gives $\log D_m\le1.979m^2$. By
+\eqref{eq:analytic},
+\[
+ \log|Z_m|\le -0.013909m^2+10m\log m+(56+\log b)m+301
+ \longrightarrow -\infty.
+\]
+This contradicts $|Z_m|\ge1$.
+\qed
+
+\appendix
+
+\section{Computer checks}\label{app:ver}
+
+The proof uses three finite computations.
+\begin{enumerate}
+\item Directed rational-interval bounds for the dual certificate of
+  Section~\ref{sec:dual}.
+\item Exact rational reconstruction of the residue cells and integer
+  potentials of Section~\ref{sec:integerization}.
+\item The determinant of the $64\times64$ seed matrix modulo $83$ in
+  Section~\ref{sec:nonvanishing}.
+\end{enumerate}
+The supplementary archive contains the finite data, the checking programs,
+the environment details and the replay outputs. Its SHA-256 and the replay
+commands are listed in \texttt{SUPPLEMENTARY.md}. The full replay takes about
+one minute on one core of an aarch64 Linux server.
+
+\section*{Use of AI tools}
+
+The author devised the method of proof. Codex (OpenAI, GPT-6 Astra and GPT-6 Luna) searched for the parameters in \eqref{eq:main-polynomial}
+and wrote the Python code and the certificates. Claude Code (Anthropic,
+Claude Opus 5.5) checked the code, the parameters and the certificates. The author
+checked every step of the proof, every table and every reference, and takes
+full responsibility for the content of the paper.
+
+\section*{Statements and declarations}
+\textbf{Competing interests.} The author has no competing interests.
+
+\textbf{Funding.} No funding was received for this work.
+
+\textbf{Data availability.} The exact data and the verification scripts are
+in the supplementary material of this paper.
+
+\begin{thebibliography}{10}
+
+\bibitem{CDT}
+F.~Calegari, V.~Dimitrov, and Y.~Tang, \emph{The linear independence of $1$,
+$\zeta(2)$, and $L(2,\chi_{-3})$}, preprint (2024), arXiv:2408.15403v2.
+
+\bibitem{DLMF}
+\emph{NIST Digital Library of Mathematical Functions},
+\url{https://dlmf.nist.gov/}, Release 1.2.8 of 2026-09-15, F.~W.~J. Olver
+et al., eds.
+
+\bibitem{Ha}
+M.~Hata, \emph{Rational approximations to the dilogarithm}, Trans. Amer. Math.
+Soc. \textbf{336} (1993), no.~1, 363--387,
+\url{https://doi.org/10.1090/S0002-9947-1993-1147401-5}. MR1147401
+
+\bibitem{Pr}
+T.~Prellberg, \emph{Three irrationality results for the dilogarithm:
+Rhin--Viola and Viola--Zudilin constructions at $-1/4$, $1/5$, and $-1/3$},
+preprint (2026), arXiv:2609.06895v1.
+
+\bibitem{RV96}
+G.~Rhin and C.~Viola, \emph{On a permutation group related to $\zeta(2)$},
+Acta Arith. \textbf{77} (1996), no.~1, 23--56,
+\url{https://doi.org/10.4064/aa-77-1-23-56}. MR1404975
+
+\bibitem{RV05}
+G.~Rhin and C.~Viola, \emph{The permutation group method for the dilogarithm},
+Ann. Sc. Norm. Super. Pisa Cl. Sci. (5) \textbf{4} (2005), no.~3, 389--437,
+\url{https://doi.org/10.2422/2036-2145.2005.3.02}. MR2185863
+
+\bibitem{RV19}
+G.~Rhin and C.~Viola, \emph{Linear independence of $1$, $\mathrm{Li}_1$ and
+$\mathrm{Li}_2$}, Mosc. J. Comb. Number Theory \textbf{8} (2019), no.~1,
+81--96,
+\url{https://doi.org/10.2140/moscow.2019.8.81}. MR3864310
+
+\bibitem{VZ}
+C.~Viola and W.~Zudilin, \emph{Linear independence of dilogarithmic values},
+J. Reine Angew. Math. \textbf{736} (2018), 193--223,
+\url{https://doi.org/10.1515/crelle-2015-0030}; preprint version:
+Max-Planck-Institut f\"ur Mathematik Preprint Series 2014 (26),
+\url{https://archive.mpim-bonn.mpg.de/id/eprint/1914/}. MR3769989
+
+\end{thebibliography}
+\end{document}

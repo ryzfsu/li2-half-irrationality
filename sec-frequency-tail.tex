@@ -1,0 +1,72 @@
+\section{The full frequency sum}\label{sec:frequency}
+
+The absolute expansion in Section~\ref{sec:contour} has frequencies
+$R\subset\{g+1,g+2,\ldots\}$ with $|R|=m$. As in \eqref{eq:contour-E},
+$E_m(H)$ is its absolute envelope restricted by $\max R\le H$. We first
+prove
+\begin{equation}\label{eq:frequency-cutoff}
+ E_m(\infty)\le\left(1+\frac3{160}2^{-m}\right)E_m(20m).
+\end{equation}
+For fixed pinned and contour variables, the $R$-dependent factor is
+\[
+ f(R)=
+ \frac{\prod_{r\in R}w_r\,\Delta(R)^2
+       \prod_{r\in R,z\in Z}|r+z|}
+      {\prod_{r\in R,i\in I_m}(r+i)
+       \prod_{r\in R,j\in J_m\setminus S}(r+j)}.
+\]
+Let $r=\max R>20m$. Replace $r$ by the least unused integer
+$s\in\{g+1,\ldots,g+m\}$, and call the result $R'$. Then $s\le3m/2$, and for fixed
+$R',r$ there are at most $m$ preimages. Since at most two integers have
+any given distance from $s$,
+\[
+ \prod_{u\in R\setminus\{r\}}|s-u|\ge
+ d_m:=\left\lfloor\frac{m-1}{2}\right\rfloor!
+      \left\lceil\frac{m-1}{2}\right\rceil!
+ \ge e^{-1}\left(\frac{m}{2e}\right)^{m-1}.
+\]
+Using $s+i\le11m/4$, $s+j\le7m/2$, and the ellipse bounds
+$\Re z>-m/6$, $|z|<5m/2$ gives
+\[
+ \frac{f(R)}{f(R')}
+ \le\frac{w_r}{w_s}(77/8)^m(189/16)^{m-|S|}
+       \frac{m^{2m}}{r^2d_m^2}
+ \le12500^m\frac{m^2}{4r^2}w_r.
+\]
+The last inequality uses $w_s\ge2^{-3m/2}$ and $e<3$. These estimates
+include both frequency-dependent minors and all contour--frequency factors.
+
+For a finite cutoff $M\ge20m$, let $Z_M$ be the sum of $f(R)$ over
+$R\subset(g,M]$. Put
+\[
+ b_m=\frac{m}{1600}12500^m\sum_{r>20m}w_r.
+\]
+The replacement map gives $Z_M-Z_{20m}\le b_mZ_M$. Since
+\[
+ \sum_{r>g}w_rt^r=\left(\frac{t}{2-t}\right)^{g+1},
+\]
+evaluation at $t=15/8$ and $200000\cdot8^{20}<15^{20}$ give
+\[
+\begin{aligned}
+ b_m&\le\frac{15m}{1600}
+       \left[50000(8/15)^{20}\right]^m\\
+    &<\frac3{320}2^{-m}<\frac12.
+\end{aligned}
+\]
+Hence $Z_M\le(1+(3/160)2^{-m})Z_{20m}$. Monotone convergence proves
+\eqref{eq:frequency-cutoff}.
+
+There are $2^m$ pinned subsets and at most
+$\binom{39m/2}{m}\le(39e/2)^m$ retained frequency subsets. The normalized
+contour length is at most $mA$, where $A=12783/10000$, and
+$(mA)^d/d!\le e^{mA}$. These counts, \eqref{eq:config-final} and
+\eqref{eq:frequency-cutoff} give
+\[
+\begin{aligned}
+ \log|G_m(\beta)|\le{}&
+ -\alpha m^2+10m\log m+(c_*+\log39+1+A)m\\
+ &+300+\tfrac13+\log\left(1+\frac3{160}2^{-m}\right).
+\end{aligned}
+\]
+Here $c_*<49.979$ and $c_*+\log39+1+A<56$. The constant terms are less
+than $301$. This proves \eqref{eq:analytic}.

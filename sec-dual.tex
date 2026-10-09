@@ -1,0 +1,90 @@
+\section{A lower bound for the continuum energy}\label{sec:dual}
+
+For a measure $\sigma$ write
+$L_\sigma(z)=\int\log|z-w|\,d\sigma(w)$. Fix an admissible reference
+pair $(\eta_0,\mu_0)$ with $\eta_0=\kappa_0+\nu_0$. Its exact cell masses
+and contour weights are given in the supplementary certificate files.
+Define
+\[
+\begin{aligned}
+Q_{\log}={}&\iint\log|z-w|\,d\eta_0(z)d\eta_0(w)
+ +\iint\log|t-s|\,d\mu_0(t)d\mu_0(s)\\
+ &+\iint\log|z+t|\,d\eta_0(z)d\mu_0(t),\\
+W_\eta={}&A_0-\phi-2L_{\eta_0}-L_{\mu_0^-},\\
+W_\mu(t)={}&B_0(t)-\psi(t)-2L_{\mu_0}(t)-L_{\eta_0}(-t).
+\end{aligned}
+\]
+For constants $h_\eta,h_\mu$ satisfying $W_\eta\ge h_\eta$ on $\Gamma$,
+put
+\[
+P=\int_E(h_\eta-W_\eta)_+\,dx,
+\qquad T=\int_{1/2}^{\infty}(h_\mu-W_\mu)_+\,dt.
+\]
+
+\begin{lemma}[Dual lower bound]\label{lem:dual-lower}
+For every admissible pair of measures,
+\begin{equation}
+\alpha_\Gamma\ge C_0+Q_{\log}+h_\eta+h_\mu-P-T.
+\label{eq:duality-bound}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $\sigma=\eta-\eta_0$ and $\tau=\mu^- -\mu_0^-$; both have total
+mass zero. The frequency variation is written on the reflected negative
+axis. Reflection preserves its self-energy, so $I(\tau)=I(\mu-\mu_0)$.
+The quadratic remainder after linearization is
+\[
+I(\sigma)+I(\tau)+I(\sigma,\tau)
+ =\tfrac12 I(\sigma)+\tfrac12 I(\tau)+\tfrac12 I(\sigma+\tau)\ge0.
+\]
+A signed measure of mass zero has nonnegative logarithmic energy. For
+smooth measures this is the Dirichlet integral identity. Finite-energy
+measures follow by approximation. In the frequency first variation, the
+change of variables from $x<0$ to $t=-x$ gives $W_\mu(t)$. Expanding the
+energy and using the definitions of $W_\eta,W_\mu$ gives
+\[
+\mathcal E\ge C_0+Q_{\log}+\int W_\eta\,d\eta+\int W_\mu\,d\mu.
+\]
+The pinned and contour masses sum to one, so the first integral is at
+least $h_\eta-P$. By the frequency cap the second integral is at least
+$h_\mu-T$. This proves \eqref{eq:duality-bound}.
+\end{proof}
+
+The reference has pinned and frequency densities in $[0,1]$ and the
+required total masses. On the contour it is a nonnegative symmetric
+Fej\'er mixture. Its cell masses and Fej\'er weights are rational. The
+checker evaluates the finitely many algebraic Fourier moments by directed
+interval enclosures. The supplementary materials give the complete
+reference, the potential formulas and closed endpoint evaluations. The
+comparison uses no quadrature value.
+
+Take $h_\eta=-669/200$ and $h_\mu=71/25$. The directed-interval
+certificate in the supplementary materials checks the bounds on the full
+contour, pinned and frequency covers. It also checks the exact reference
+integrals:
+\[
+P\le\frac{6905963574153}{81920000000000},\quad
+T_{[1/2,81/10]}\le\frac{38158094390353}{409600000000000},\quad
+Q_{\log}>-\frac{438334707}{10^9}.
+\]
+The rational cell lists and the directed checker are in the supplementary
+archive. For the infinite frequency tail we argue by hand. For
+$t\ge81/10$,
+\[
+W_\mu'(t)\ge\log2-\frac1{2(t-1/2)}+\frac3{t+2}
+ -\frac2{t-11/2}-\frac1{t-751/5000}.
+\]
+The right side is increasing and exceeds $1/50$ at $81/10$. The checker
+also verifies
+\[
+W_\mu(81/10)>71/25=h_\mu.
+\]
+Thus $W_\mu$ is increasing above this endpoint, and
+$(h_\mu-W_\mu(t))_+=0$ for every $t\ge81/10$. So the positive-part
+integral $T$ has no tail beyond that point. A rational upper bound for
+$\log2$ in \eqref{eq:duality-bound} now gives
+\begin{equation}
+\alpha_\Gamma>\frac{1992909}{10^6}.
+\label{eq:alpha-lower}
+\end{equation}

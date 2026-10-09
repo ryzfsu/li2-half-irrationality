@@ -1,0 +1,328 @@
+\section{Clearing denominators}\label{sec:integerization}
+
+This section proves \eqref{eq:integerizer} for all \(m\in4\mathbb N\). For
+\(F\in\mathbb Q[T]\), the Gauss valuation \(v_p(F)\) is the minimum
+valuation of its coefficients. Set \(v_p(0)=+\infty\).
+
+\subsection{Denominators and a formal identity in the parameter}
+
+Let \(a\) be a variable for now. Put \(c_i=\binom{i+g}{g}\),
+\(U_i=c_i a^i\), \(h_i=\sum_{s=1}^g1/(i+s)\), and
+\(Q_s(a)=(a/(a-1))^s-1\). In Section~\ref{sec:source} replace \(2^i\) by
+\(a^i\) and \(2^s-1\) by \(Q_s(a)\). This gives the rational coefficient
+functions of \(D_gM\) in Lemma~\ref{lem:source-bank}. They follow from
+Leibniz's rule and
+
+\[
+ \begin{aligned}
+ L^{(s)}&=(-1)^{s-1}(s-1)!\bigl((a-1)^{-s}-a^{-s}\bigr),\\
+ \beta^{(s)}&=(-1)^{s-1}(s-1)!a^{-s}
+          \left(L-\sum_{r=1}^{s-1}\frac{Q_r(a)}r\right).
+ \end{aligned}
+\]
+
+Put \(U=2m-1\) and \(d_U=\operatorname{lcm}(1,\ldots,U)\). The identity
+\begin{equation}\label{eq:int-harmonic}
+ c_i h_i=\sum_{s=1}^g\frac{(-1)^{s-1}}s\binom{i+g}{g-s}
+\end{equation}
+is the derivative at zero of the Vandermonde identity
+\(\binom{i+g+x}{g}=\sum_{s=0}^g\binom{i+g}{g-s}\binom{x}{s}\). So the
+harmonic denominators need only the indices \(s\le g\le U\). The finite sums
+have denominators cleared by \(d_U\) in \(C\) and by \(d_U^2\) in \(B\).
+The entries of \(B\) have pole order at most \(g\) at \(a=1\). Scaling rows
+gives
+\begin{equation}\label{eq:int-Pm}
+ P_m(a,T):=d_U^{3m}(a-1)^{gm}G_m(a,T)\in\mathbb Z[a,T].
+\end{equation}
+Here \(G_m(a,T)\) is the determinant with parameter \(a\). The rest of the
+paper uses \(G_m(2,T)\). Its finite rational formulas contain no negative
+powers of \(a\).
+
+Work formally in \(\mathbb Q[[a]]\), with \(L_1=\sum_{r\ge1}a^r/r\), \(L_2=\sum_{r\ge1}a^r/r^2\),
+and
+
+\[
+ \gamma_i=\tfrac12\left(h_i^2-\sum_{s=1}^g(i+s)^{-2}\right).
+\]
+
+For all \(g,i\ge0\) the rational functions satisfy
+\begin{equation}\label{eq:int-t}
+ t_i^{(g)}-L_1U_i=\sum_{k\ne i}\frac{c_ka^k}{i-k}-U_i h_i,
+\end{equation}
+\begin{equation}\label{eq:int-b}
+ b_i^{(g)}+L_1U_i h_i+L_2U_i
+       =\sum_{k\ne i}\frac{c_ka^k}{(i-k)^2}+\gamma_iU_i.
+\end{equation}
+Here and below sums over \(k\) start at zero. To prove these uniformly in
+\(g\), adjoin to \(\mathbb Q((a))\) a formal symbol \(\lambda\) with
+\(\lambda'=1/a\). Differentiating \(D_g a^x=\binom{x+g}{g}a^x\) in the
+auxiliary exponent gives
+
+\[
+ D_g(a^i\lambda)=U_i(\lambda+h_i),\quad
+ D_g(a^i\lambda^2)=U_i(\lambda^2+2h_i\lambda+2\gamma_i).
+\]
+
+The substitutes \(\bar L=-L_1-\lambda\) and
+\(\bar\beta=-L_2-\lambda^2/2\) obey the differential equations of \(L\) and
+\(\beta\): \(\bar L'=1/(a(a-1))\) and \(\bar\beta'=\bar L/a\). The base
+formal identities \(t_i^0-L_1a^i=\sum_{k\ne i}a^k/(i-k)\) and
+\(b_i^0+L_2a^i=\sum_{k\ne i}a^k/(i-k)^2\) hold coefficientwise. Apply
+\(D_g\); it multiplies each \(a^k\) coefficient by \(c_k\). Then compare the
+terms free of the independent symbol \(\lambda\). This proves
+\eqref{eq:int-t} and \eqref{eq:int-b}, including the coefficient at
+\(k=i\). The formula for \(\gamma_i\) also follows from the coefficient of
+\(x^2\) in the same Vandermonde identity.
+
+\subsection{Rank-one features and specialization at 2}
+
+For an independent variable \(X\) form
+
+\[
+ \mathcal H(a,X)=\begin{bmatrix}C(a)\\
+                B(a)-L_1C(a)+L_2A(a)-XA(a)\end{bmatrix}.
+\]
+
+Fix a weight \(k\ge0\). On \(I_m\) put \(e_I(i)=[i=k]\) and
+\(w_I(i)=v_I(i)^2\), where \(v_I(i)=1/(i-k)\) for \(i\ne k\) and \(v_I\) is
+zero otherwise. Define \(e_J,v_J,w_J\) on \(J_m\) in the same way. By
+\eqref{eq:int-t} and \eqref{eq:int-b},
+\begin{equation}\label{eq:int-rank-one}
+ [a^k]\mathcal H=c_k\left(
+ \begin{bmatrix}e_I\\v_I-h_ke_I\end{bmatrix}v_J^t
+ +\begin{bmatrix}0\\-e_I\end{bmatrix}w_J^t
+ +\begin{bmatrix}v_I-h_ke_I\\-w_I-h_kv_I+(\gamma_k-X)e_I\end{bmatrix}e_J^t
+                  \right).
+\end{equation}
+The second rank-one summand vanishes unless \(k\in I_m\), and the third
+unless \(k\in J_m\). So weight \(k\) has at most
+\(1+[k\in I_m]+[k\in J_m]\) features. A nonzero determinant term must
+choose \(2m\) distinct features. For a fixed coefficient of \(a\) only
+finitely many features matter. So finite multilinearity proves this
+statement formally.
+
+For \(m=4h\), the cheapest \(8h\) features are two copies of
+\(0,\ldots,h-1\) and three of \(h,\ldots,3h-1\). Their total weight is
+\begin{equation}\label{eq:int-Nm}
+ N_m=2\sum_{k=0}^{h-1}k+3\sum_{k=h}^{3h-1}k
+                  =13h^2-4h=\frac{13}{16}m^2-m.
+\end{equation}
+The determinant-preserving row shear gives
+\(\det\mathcal H(a,X)=G_m(a,X-L_2)\). Hence the right side is divisible
+by \(a^{N_m}\) in \(\mathbb Q[[a]][X]\). The substitution \(X=T+L_2\) is
+polynomial in \(X\), so it preserves divisibility. With the integer
+polynomial \eqref{eq:int-Pm} this gives
+\begin{equation}\label{eq:int-divisible}
+ d_U^{3m}(a-1)^{gm}G_m(a,T)\in a^{N_m}\mathbb Z[a,T].
+\end{equation}
+Only now set \(a=2\). The factor \((a-1)^{gm}\) is one, so
+\begin{equation}\label{eq:int-twoadic}
+ v_2(G_m)\ge N_m-3m\lfloor\log_2U\rfloor.
+\end{equation}
+No value of \(L_1(2)\) or \(L_2(2)\) is used. The formal translation is
+undone before the integer specialization. The supplementary reports test
+finitely many formal coefficients. These tests only corroborate the
+argument, which holds for every \(g\).
+
+\subsection{Valuation bounds at odd primes}\label{subsec:odd}
+
+Let \(p\) be an odd prime with \(p^2>U+g\). Put
+
+\[
+ r=g\bmod p,\quad \kappa_n=[n\bmod p\ge p-r],\qquad
+ \tau_n=(\kappa_n-1)[n\ge p\ \hbox{or}\ p\le g].
+\]
+
+When \(r=0\), \(\kappa_n=0\). Since \(n+g<p^2\), Kummer's carry criterion
+gives \(v_p\binom{n+g}{g}=\kappa_n\). If \(p\) divides a denominator index
+\(s\), then \(v_p\binom{n+g}{g-s}\ge\kappa_n\); if \(s\le n\), then
+\(v_p\binom{n-s+g}{g}=\kappa_n\). All nonzero denominator indices and index
+differences have valuation at most one. The ultrametric inequality, applied
+to the formulas of Section~\ref{sec:source}, gives the following upper
+bounds for negative Gauss valuations.
+
+\begin{center}
+\begin{tabular}{p{0.36\textwidth}p{0.54\textwidth}}
+\hline
+Entry & Upper bound \\
+\hline
+\(C_{ij}\), \(i\ne j\) & \([i\equiv j\pmod p]-\min(\kappa_i,\kappa_j)\) \\
+\(C_{ii}\) & \((1-\kappa_i)[p\le g]\) \\
+\(B_{ij}\), \(i\ne j\) & \([i\equiv j\pmod p]-\min(\tau_i,\tau_j)\) \\
+\(B_{ii}-TU_i\), \(i\ge p\) or \(2p\le g\) & \(2-\kappa_i\) \\
+\(B_{ii}-TU_i\), \(i<p\) and \(p\le g<2p\) & \(1\) \\
+\(B_{ii}-TU_i\), \(i<p\) and \(p>g\) & \(0\) \\
+\hline
+\end{tabular}
+\end{center}
+
+For the last three lines, the first diagonal sum has a squared \(p\)
+denominator only if \(i\ge p\). Both denominators in its double sum are
+divisible by \(p\) only if \(2p\le g\), and then the binomial gains
+\(\kappa_i\). A single \(p\) denominator costs at most one. The coefficient
+\(-TU_i\) has nonnegative valuation and does not worsen the bounds.
+
+Let \(W_m(p)\) be the maximum weight sum over permutations. By Leibniz,
+\(-v_p(G_m)\le W_m(p)\). Integer row and column potentials whose sums
+dominate every entry weight also give an exponent, namely their total. No
+assignment optimality or determinant rank theorem is needed. The coarse
+bound is \(W_m(p)\le3m\).
+
+\subsection{Small primes}
+
+Let \(p<g\). After enlarging the special diagonal bounds if needed, take
+\(w_C(i,j)=[i\equiv j\pmod p]-\kappa_i\kappa_j\) and \(w_B=1+w_C\). Let
+\(c_I(v),c_J(v)\) be the residue copy counts and \(K_I,K_J\) the killed
+index counts. Put
+\[
+ S_U=\sum_{\kappa_v=0}\min(2c_I(v),c_J(v)),\quad
+ S_K=\sum_{\kappa_v=1}\min(2c_I(v),c_J(v)).
+\]
+Then
+\begin{equation}\label{eq:int-W}
+ W_m(p)\le\min\{m+S_U,\ 3m-2K_I-K_J+S_K\}.
+\end{equation}
+For the proof, subtract the bottom-row constant \(m\). The score is then
+\(x-z\), where \(x\) counts unkilled same-residue matches and \(z\) killed
+off-residue matches. Let \(y\) count killed same-residue matches. Then
+\(x\le S_U\) and \(y\le S_K\). Counting the killed rows and columns gives
+\(z+y\ge2K_I+K_J-2m+x\). Both bounds follow.
+
+For \(\rho=p/m\) and \(t=v/m\in[0,\rho)\), the copy counts are
+\[
+ c_I(t)=\#\{n:1/4\le t+n\rho<5/4\},\quad
+ c_J(t)=\#\{n:0\le t+n\rho<2\}.
+\]
+They change only at the six endpoints
+\begin{equation}\label{eq:int-endpoints}
+ 0,\rho,\quad a-\lfloor a/\rho\rfloor\rho\ (a=1/4,5/4,2),
+ \quad-1/2+(\lfloor1/(2\rho)\rfloor+1)\rho.
+\end{equation}
+The last is the killed threshold. Every endpoint is \(b+n\rho\) with
+integer \(n\) and \(b\in\{0,1/4,5/4,2,-1/2\}\). So all walls lie among the
+numbers \(|b-c|/n\), \(n\ge1\). Each fixed positive strip contains finitely
+many of them. Within a wall cell the objectives in \eqref{eq:int-W} are
+affine. We integrate their lower envelope after also splitting at the
+affine crossings. Each endpoint in \eqref{eq:int-endpoints}, multiplied by
+\(m\), is an integer. With half-open conventions the residue counts are
+therefore exactly \(m\) times the cell widths, with the correct boundary
+assignments. No asymptotic equality to the true assignment profile is used.
+
+Let \(\delta=1/128\). The 756 affine pieces in the certificate specify the
+exact integral \(L_*\) on \([\delta,1/2]\). Its value is the following
+numerator divided by the denominator.
+\begin{center}
+\begin{minipage}{0.92\linewidth}\footnotesize\ttfamily
+\seqsplit{1448276314740194964855260100800462127260298031042796749529725627370010396734895633658285333350450905704443029571002838710237}
+\par\medskip /\par\medskip
+\seqsplit{1404098881580803157259376918521625735839461675553873436297217652662216162782957043593966060046854826150978176673015236224000}
+\end{minipage}
+\end{center}
+
+Near zero the row potentials \(1-\kappa_i\) and \(2-\kappa_i\), with zero
+column potentials, are feasible. They give \(W_m(p)\le3m-2K_I\). Any
+interval of \(m\) integers contains at least
+\(\lfloor m/p\rfloor(g\bmod p)\) killed indices. Hence
+\begin{equation}\label{eq:int-near-zero}
+ W_m(p)/m\le3-2\{1/(2\rho)\}+2\rho.
+\end{equation}
+Write \(\delta=1/(2Q)\), \(Q=64\). The substitution \(x=1/(2\rho)\) gives
+\[
+ \int_0^\delta(3-2\{1/(2\rho)\})d\rho
+ =\frac1{2Q}+\sum_{q\ge Q}\left(\frac1q-\log(1+1/q)\right).
+\]
+The summand exceeds \(1/(2q(q+1))\) by exactly
+\(\int_0^1s(1-s)/(q(q+s)(q+1))\,ds\le1/(6q^2(q+1))\). Summing, and adding
+the integral of \(2\rho\), gives the rigorous upper bound
+\begin{equation}\label{eq:int-small}
+ I_{\rm small}\le2\delta+2\delta^2=129/8192.
+\end{equation}
+
+\subsection{Large primes and the integerizer}
+
+For \(\rho>1/2\), keep each row copy in both blocks and every column copy.
+In a residue cell with flag \(\kappa\), copy digit \(t\) has
+\(\tau=(\kappa-1)[t\ge1]\). The exact data give an integer potential to
+each row and column type. Every pair of types must satisfy the off-residue
+bound of Section~\ref{subsec:odd}. A pair in the same residue cell must also
+satisfy the same-residue bound, including the diagonal case. Checking both
+cases also covers two distinct residues in the same cell. The objective is
+the sum of potentials times the exact cell counts.
+
+The exact rational verifier in the supplementary materials reconstructs
+the complete wall geometry. It checks all 756 low pieces and all 1,942 high
+integer inequalities. It gives the following high upper profile.
+
+\begin{center}
+\begin{tabular}{p{0.36\textwidth}p{0.54\textwidth}}
+\hline
+Interval in \(\rho\) & Upper profile \\
+\hline
+\((1/2,7/12)\) & \(1\) \\
+\((7/12,5/8)\) & \(3\rho -3/4\) \\
+\((5/8,2/3)\) & \(\rho +1/2\) \\
+\((2/3,3/4)\) & \(4\rho -3/2\) \\
+\((3/4,5/6)\) & \(3\rho -3/4\) \\
+\((5/6,1)\) & \(7/4\) \\
+\((1,7/4)\) & \(15/4-2\rho\) \\
+\((7/4,2)\) & \(2-\rho\) \\
+\((2,5/2)\) & \(0\) \\
+\hline
+\end{tabular}
+\end{center}
+
+Its integral is \(287/192\). The copy geometry splits this table into 11
+cells. The data list the individual types and integer potentials. No
+optimizer or numerical rounding is used. On each wall in a positive strip
+use \(3m\) instead. This costs \(O(m\log m)\) in total and covers
+\(\rho=1/2\).
+
+Choose the exponents \(E_p\) in the following order.
+\begin{enumerate}
+\item At 2 take \(E_2=3m\lfloor\log_2U\rfloor-N_m\).
+\item At odd \(p^2\le U+g\) use \(3m\lfloor\log_p U\rfloor\).
+\item At \(p>U\) use zero.
+\item At the remaining \(p/m<\delta\) use \(3m-2K_I\).
+\item At a wall in a positive strip use \(3m\).
+\item Elsewhere below \(m/2\) use \eqref{eq:int-W}.
+\item Elsewhere above \(m/2\) use the least feasible high dual objective.
+\end{enumerate}
+The positive rational product
+\begin{equation}\label{eq:int-Dm}
+ D_m=\prod_p p^{E_p}
+\end{equation}
+is finite, and every exponent bounds \(-v_p(G_m)\). So \(D_m\) integerizes
+every coefficient. A negative \(E_2\) only divides out a proved common power
+of two.
+
+The positive 2-adic overhead is \(O(m\log m)\). Small odd primes cost at
+most \(3m\,\pi(\sqrt{U+g})\log U=O(m^{3/2}\log m)=o(m^2)\). On each fixed
+positive strip we use the classical weighted prime number theorem
+\[
+ \frac1m\sum_p f(p/m)\log p\longrightarrow\int f(\rho)d\rho
+\]
+for a bounded finitely piecewise smooth function \(f\). For
+\eqref{eq:int-near-zero}, first omit \(p<\varepsilon m\). Then apply the
+theorem on \([\varepsilon,\delta]\), and let \(\varepsilon\downarrow0\). By
+\(3m\theta(\varepsilon m)\), the omitted part has normalized limsup at most
+\(3\varepsilon\). The exact counts on positive strips and the finite wall
+cost now prove
+
+\[
+ \limsup\frac{\log D_m}{m^2}
+ \le L_*+\frac{129}{8192}+\frac{287}{192}-\frac{13}{16}\log2.
+\]
+
+Finally let \(\ell_-=2\sum_{k=0}^{29}(1/3)^{2k+1}/(2k+1)<\log2\). The same
+verifier checks the exact rational comparison
+
+\[
+ \begin{aligned}
+ \tau_{\rm basic}:={}&L_*+\frac{129}{8192}+\frac{287}{192}
+                            -\frac{13}{16}\ell_-\\
+ ={}&1.97881984510269917464907037626379\ldots<1.979.
+ \end{aligned}
+\]
+
+The decimal is the exact rational of the receipt, rounded. This proves
+\eqref{eq:integerizer}, and in particular the weaker rate \(\tau\le1.99\).
