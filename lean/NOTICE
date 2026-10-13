@@ -1,0 +1,12 @@
+Li2(1/2) Lean Certificate
+========================
+
+Copyright (c) 2026 Ruiyi Zhang. All rights reserved.
+
+This package is released under the Apache License, Version 2.0. The complete
+license text is provided in LICENSE and LICENSES/Apache-2.0.txt.
+
+Third-party and adapted source notices are collected in
+THIRD_PARTY_NOTICES.md. The vendored PrimeNumberTheoremAnd source retains its
+upstream notice at Li2Lean/Vendor/PNT/NOTICE; that file applies to the
+vendored subtree.

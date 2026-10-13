@@ -1,0 +1,10 @@
+utc_start=2026-10-12T19:38:36Z
+utc_end=2026-10-12T19:38:41Z
+command=lake env lean -DautoImplicit=false SolutionAxioms.lean
+toolchain_file=leanprover/lean4:v4.35.0-rc4
+lean_version=Lean (version 4.35.0-rc4, x86_64-unknown-linux-gnu, commit c29b6dda4f7c20e3eeaa717c4e565663c5cfa364, Release)
+lake_version=Lake version 5.0.0-src+c29b6dd (Lean version 4.35.0-rc4)
+manifest_sha256=4ff4603ab2d8b700dc530cbd4dd9f4354fbc5c6124eba8f5fdd0f91ea98a112a
+source_build_manifest_sha256=3c5c3f85c7a7302961b2bc706cf76cb3ec9047b2c2a29513a7b324e399ef5fbe
+source_manifest_file=verification/build-source-manifest.sha256
+exit_code=0

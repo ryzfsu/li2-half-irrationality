@@ -1,0 +1,183 @@
+import Li2Lean.P0.CA.Frequency.Arith
+import Li2Lean.P0.ConfigSlackSemanticIdentity
+
+/-!
+# CA-F: the actual `Wmu` as a finite combination of the primitive `F`
+
+Starting from `ConfigSlackSemanticIdentity.actualWmu_eq_endpoints` (the
+literal frequency first variation with exact segment endpoint sums), the
+function `Config.Wmu actualReference` is written as
+`-1/2 - log 2 / 2 + t log 2 + sum_i c_i F(t + e_i) - contourPotential(-t)`
+with rational `(c_i, e_i)` read directly from the Appendix A arrays in
+`ConfigData`.  Equal shifts are merged (density jumps), and the merged list
+is checked by the kernel against a literal table used by the row checker.
+-/
+
+namespace Li2Lean.P0.CA.Frequency
+
+open Li2Lean.LogSegment Li2Lean.P0.ConfigSegment Li2Lean.P0.ConfigReferenceSymmetry
+open Li2Lean.P0.ConfigContourReference
+
+/-- Value of a coefficient/shift list: `sum c * F(t + e)`. -/
+noncomputable def termsVal (l : List (ℚ × ℚ)) (t : ℝ) : ℝ :=
+  (l.map fun p => (p.1 : ℝ) * primitive (t + (p.2 : ℝ))).sum
+
+@[simp] theorem termsVal_nil (t : ℝ) : termsVal [] t = 0 := rfl
+
+@[simp] theorem termsVal_cons (p : ℚ × ℚ) (l : List (ℚ × ℚ)) (t : ℝ) :
+    termsVal (p :: l) t = (p.1 : ℝ) * primitive (t + (p.2 : ℝ)) + termsVal l t := by
+  simp [termsVal]
+
+theorem termsVal_append (l m : List (ℚ × ℚ)) (t : ℝ) :
+    termsVal (l ++ m) t = termsVal l t + termsVal m t := by
+  simp [termsVal]
+
+theorem termsVal_flatMap_range (n : ℕ) (g : ℕ → List (ℚ × ℚ)) (t : ℝ) :
+    termsVal ((List.range n).flatMap g) t = ∑ j ∈ Finset.range n, termsVal (g j) t := by
+  induction n with
+  | zero => simp
+  | succ n ih =>
+      rw [List.range_succ, List.flatMap_append, termsVal_append, ih,
+        Finset.sum_range_succ]
+      simp [termsVal]
+
+/-- Rational frequency reference density `32 m_j / D`. -/
+def freqDensQ (j : ℕ) : ℚ :=
+  32 * (Li2Lean.P0.ConfigData.frequencyMassUnits.getD j 0 : ℚ) /
+    (Li2Lean.P0.ConfigData.referenceDenominator : ℚ)
+
+/-- Rational pinned reference density `32 m_k / D`. -/
+def pinDensQ (k : ℕ) : ℚ :=
+  32 * (Li2Lean.P0.ConfigData.pinnedMassUnits.getD k 0 : ℚ) /
+    (Li2Lean.P0.ConfigData.referenceDenominator : ℚ)
+
+theorem freqDensQ_cast (j : ℕ) :
+    (freqDensQ j : ℝ) = referenceDensity Li2Lean.P0.ConfigData.frequencyMassUnits j := by
+  unfold freqDensQ referenceDensity; push_cast; rfl
+
+theorem pinDensQ_cast (k : ℕ) :
+    (pinDensQ k : ℝ) = referenceDensity Li2Lean.P0.ConfigData.pinnedMassUnits k := by
+  unfold pinDensQ referenceDensity; push_cast; rfl
+
+/-- The two frequency-cell terms of `-2 * frequencyReferencePotential t`. -/
+def freqPair (j : ℕ) : List (ℚ × ℚ) :=
+  [(-2 * freqDensQ j, -(1 / 2 + (j : ℚ) / 32)),
+   (2 * freqDensQ j, -(1 / 2 + ((j + 1 : ℕ) : ℚ) / 32))]
+
+/-- The two pinned-cell terms of `-pinnedReferencePotential (-t)`. -/
+def pinPair (k : ℕ) : List (ℚ × ℚ) :=
+  [(-pinDensQ k, 1 / 4 + ((k + 1 : ℕ) : ℚ) / 32),
+   (pinDensQ k, 1 / 4 + (k : ℚ) / 32)]
+
+/-- The unmerged term list: `B0`, `-psi`, the frequency and pinned segments. -/
+def rawTerms : List (ℚ × ℚ) :=
+  [(1, 5 / 4), (-1, 1 / 4), (1, 2), (-1, 0), (-1, 0), (1, -(1 / 2))] ++
+    (List.range 160).flatMap freqPair ++ (List.range 32).flatMap pinPair
+
+theorem psi_eq_primitive (t : ℝ) :
+    Config.psi t = primitive t - primitive (t - 1 / 2) + 1 / 2 +
+      Real.log 2 / 2 - t * Real.log 2 := by
+  unfold Config.psi
+  rw [primitive_eq, primitive_eq, one_div, Real.log_inv]
+  ring
+
+/-- The literal frequency first variation in coefficient/shift form. -/
+theorem actualWmu_eq_rawTerms (t : ℝ) :
+    Config.Wmu actualReference t =
+      -1 / 2 - Real.log 2 / 2 + t * Real.log 2 + termsVal rawTerms t -
+        contourReferencePotential (-(t : ℂ)) := by
+  rw [Li2Lean.P0.ConfigSlackSemanticIdentity.actualWmu_eq_endpoints, psi_eq_primitive]
+  have hfreq : termsVal ((List.range 160).flatMap freqPair) t =
+      -(2 * ∑ j ∈ Finset.range 160,
+        referenceDensity Li2Lean.P0.ConfigData.frequencyMassUnits j *
+          (primitive (t - referenceCellLeft (1 / 2) j) -
+            primitive (t - referenceCellRight (1 / 2) j))) := by
+    rw [termsVal_flatMap_range, Finset.mul_sum, ← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl
+    intro j _
+    simp only [freqPair, termsVal_cons, termsVal_nil, referenceCellLeft,
+      referenceCellRight, ← freqDensQ_cast]
+    push_cast
+    simp only [← sub_eq_add_neg]
+    ring
+  have hpin : termsVal ((List.range 32).flatMap pinPair) t =
+      -(∑ j ∈ Finset.range 32,
+        referenceDensity Li2Lean.P0.ConfigData.pinnedMassUnits j *
+          (primitive (t + referenceCellRight (1 / 4) j) -
+            primitive (t + referenceCellLeft (1 / 4) j))) := by
+    rw [termsVal_flatMap_range, ← Finset.sum_neg_distrib]
+    apply Finset.sum_congr rfl
+    intro j _
+    simp only [pinPair, termsVal_cons, termsVal_nil, referenceCellLeft,
+      referenceCellRight, ← pinDensQ_cast]
+    push_cast
+    ring
+  unfold rawTerms
+  rw [termsVal_append, termsVal_append, hfreq, hpin]
+  simp only [termsVal_cons, termsVal_nil]
+  push_cast
+  simp only [← sub_eq_add_neg, add_zero]
+  ring
+
+/-! ## Merging equal shifts -/
+
+def insertTerm (p : ℚ × ℚ) : List (ℚ × ℚ) → List (ℚ × ℚ)
+  | [] => [p]
+  | q :: l => if q.2 = p.2 then (q.1 + p.1, q.2) :: l else q :: insertTerm p l
+
+def mergeTerms (l : List (ℚ × ℚ)) : List (ℚ × ℚ) :=
+  (l.foldl (fun acc p => insertTerm p acc) []).filter (fun p => decide (p.1 ≠ 0))
+
+theorem termsVal_insertTerm (p : ℚ × ℚ) (l : List (ℚ × ℚ)) (t : ℝ) :
+    termsVal (insertTerm p l) t = (p.1 : ℝ) * primitive (t + (p.2 : ℝ)) + termsVal l t := by
+  induction l with
+  | nil => simp [insertTerm]
+  | cons q l ih =>
+      simp only [insertTerm]
+      split_ifs with h
+      · simp only [termsVal_cons, h]
+        push_cast
+        ring
+      · simp only [termsVal_cons, ih]
+        ring
+
+theorem termsVal_foldl (l acc : List (ℚ × ℚ)) (t : ℝ) :
+    termsVal (l.foldl (fun acc p => insertTerm p acc) acc) t = termsVal acc t + termsVal l t := by
+  induction l generalizing acc with
+  | nil => simp
+  | cons p l ih =>
+      simp only [List.foldl_cons, ih, termsVal_insertTerm, termsVal_cons]
+      ring
+
+theorem termsVal_filter (l : List (ℚ × ℚ)) (t : ℝ) :
+    termsVal (l.filter (fun p => decide (p.1 ≠ 0))) t = termsVal l t := by
+  induction l with
+  | nil => simp
+  | cons p l ih =>
+      by_cases h : p.1 = 0
+      · rw [List.filter_cons]
+        simpa [h] using ih
+      · rw [List.filter_cons]
+        simpa [h] using ih
+
+theorem termsVal_mergeTerms (l : List (ℚ × ℚ)) (t : ℝ) :
+    termsVal (mergeTerms l) t = termsVal l t := by
+  unfold mergeTerms
+  rw [termsVal_filter, termsVal_foldl]
+  simp
+
+/-- Literal merged coefficient/shift table (generated by
+`tools/ca_freq/gen_freq_rows.py`, checked by `freqTerms_eq`). -/
+def freqTerms : List (ℚ × ℚ) := @@FREQTERMS@@
+
+theorem freqTerms_eq : mergeTerms rawTerms = freqTerms := by
+  decide +kernel
+
+/-- The literal frequency first variation with merged coefficients. -/
+theorem actualWmu_eq_freqTerms (t : ℝ) :
+    Config.Wmu actualReference t =
+      -1 / 2 - Real.log 2 / 2 + t * Real.log 2 + termsVal freqTerms t -
+        contourReferencePotential (-(t : ℂ)) := by
+  rw [actualWmu_eq_rawTerms, ← freqTerms_eq, termsVal_mergeTerms]
+
+end Li2Lean.P0.CA.Frequency

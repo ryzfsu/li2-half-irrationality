@@ -1,0 +1,305 @@
+import Li2Lean.P0.CA.Frequency.FixArith
+import Li2Lean.P0.CA.Frequency.Terms
+
+/-!
+# CA-F fixed-point bounds for `F` and for the merged term sum
+
+Mantissa (`/ 2^60`) lower/upper bounds for `F(p/q) = (p/q)(log|p/q| - 1)`,
+its exact hull on an interval (via `primitive_lower_hull` /
+`primitive_upper_hull`), and the lower bound of `sum c_i F(t + e_i)` for an
+integer-quadruple term table that is kernel-identified with `freqTerms`.
+-/
+
+namespace Li2Lean.P0.CA.Frequency
+
+open Li2Lean.LogSegment
+
+/-- Floor division by a positive natural. -/
+def fdiv (n : ℤ) (d : ℕ) : ℤ := n / (d : ℤ)
+
+/-- Ceiling division by a positive natural. -/
+def cdivI (n : ℤ) (d : ℕ) : ℤ := -((-n) / (d : ℤ))
+
+theorem fdiv_le (n : ℤ) {d : ℕ} (hd : 0 < d) : ((fdiv n d : ℤ) : ℝ) ≤ (n : ℝ) / d := by
+  have hdR : (0 : ℝ) < d := by exact_mod_cast hd
+  rw [le_div_iff₀ hdR]
+  have h := Int.ediv_mul_le n (show (d : ℤ) ≠ 0 by exact_mod_cast hd.ne')
+  have h' : ((n / (d : ℤ) * (d : ℤ) : ℤ) : ℝ) ≤ (n : ℝ) := by exact_mod_cast h
+  push_cast at h'
+  exact h'
+
+theorem le_cdivI (n : ℤ) {d : ℕ} (hd : 0 < d) : (n : ℝ) / d ≤ ((cdivI n d : ℤ) : ℝ) := by
+  have h := fdiv_le (-n) hd
+  unfold fdiv at h
+  unfold cdivI
+  push_cast at h ⊢
+  rw [neg_div] at h
+  linarith
+
+/-- Mantissa lower bound of `F(p/q)`. -/
+def pLoM (p : ℤ) (q : ℕ) : ℤ :=
+  if p = 0 then 0
+  else if 0 < p then fdiv (p * ((logMant p.natAbs q).1 - twoE)) q
+  else fdiv (p * ((logMant p.natAbs q).2 - twoE)) q
+
+/-- Mantissa upper bound of `F(p/q)`. -/
+def pHiM (p : ℤ) (q : ℕ) : ℤ :=
+  if p = 0 then 0
+  else if 0 < p then cdivI (p * ((logMant p.natAbs q).2 - twoE)) q
+  else cdivI (p * ((logMant p.natAbs q).1 - twoE)) q
+
+theorem natAbs_div_cast {p : ℤ} {q : ℕ} (hp : p ≠ 0) :
+    Real.log (((p.natAbs : ℕ) : ℝ) / q) = Real.log |(p : ℝ) / q| := by
+  rw [abs_div, Nat.abs_cast, Nat.cast_natAbs, Int.cast_abs]
+
+theorem pLoM_le (p : ℤ) {q : ℕ} (hq : 0 < q) :
+    ((pLoM p q : ℤ) : ℝ) / twoE ≤ primitive ((p : ℝ) / q) := by
+  have hE := twoE_cast_pos
+  have hqR : (0 : ℝ) < q := by exact_mod_cast hq
+  unfold pLoM
+  split_ifs with h0 hpos
+  · simp [h0]
+  · have hpa : 0 < p.natAbs := Int.natAbs_pos.mpr h0
+    obtain ⟨hb, _⟩ := logMant_sound hpa hq
+    rw [natAbs_div_cast h0] at hb
+    have hpR : (0 : ℝ) < p := by exact_mod_cast hpos
+    have hf := fdiv_le (p * ((logMant p.natAbs q).1 - twoE)) hq
+    unfold primitive
+    rw [div_le_iff₀ hE]
+    push_cast at hf
+    have hu : (0 : ℝ) < (p : ℝ) / q := div_pos hpR hqR
+    have key : (p : ℝ) * (((logMant p.natAbs q).1 : ℝ) - twoE) / q =
+        ((p : ℝ) / q) * (((logMant p.natAbs q).1 : ℝ) / twoE - 1) * twoE := by
+      field_simp
+    have hm : ((p : ℝ) / q) * (((logMant p.natAbs q).1 : ℝ) / twoE - 1) ≤
+        ((p : ℝ) / q) * (Real.log |(p : ℝ) / q| - 1) :=
+      mul_le_mul_of_nonneg_left (by linarith) hu.le
+    nlinarith
+  · have hneg : p < 0 := lt_of_le_of_ne (not_lt.mp hpos) h0
+    have hpa : 0 < p.natAbs := Int.natAbs_pos.mpr h0
+    obtain ⟨_, hb⟩ := logMant_sound hpa hq
+    rw [natAbs_div_cast h0] at hb
+    have hpR : (p : ℝ) < 0 := by exact_mod_cast hneg
+    have hf := fdiv_le (p * ((logMant p.natAbs q).2 - twoE)) hq
+    unfold primitive
+    rw [div_le_iff₀ hE]
+    push_cast at hf
+    have hu : (p : ℝ) / q < 0 := div_neg_of_neg_of_pos hpR hqR
+    have key : (p : ℝ) * (((logMant p.natAbs q).2 : ℝ) - twoE) / q =
+        ((p : ℝ) / q) * (((logMant p.natAbs q).2 : ℝ) / twoE - 1) * twoE := by
+      field_simp
+    have hm : ((p : ℝ) / q) * (((logMant p.natAbs q).2 : ℝ) / twoE - 1) ≤
+        ((p : ℝ) / q) * (Real.log |(p : ℝ) / q| - 1) :=
+      mul_le_mul_of_nonpos_left (by linarith) hu.le
+    nlinarith
+
+theorem le_pHiM (p : ℤ) {q : ℕ} (hq : 0 < q) :
+    primitive ((p : ℝ) / q) ≤ ((pHiM p q : ℤ) : ℝ) / twoE := by
+  have hE := twoE_cast_pos
+  have hqR : (0 : ℝ) < q := by exact_mod_cast hq
+  unfold pHiM
+  split_ifs with h0 hpos
+  · simp [h0]
+  · have hpa : 0 < p.natAbs := Int.natAbs_pos.mpr h0
+    obtain ⟨_, hb⟩ := logMant_sound hpa hq
+    rw [natAbs_div_cast h0] at hb
+    have hpR : (0 : ℝ) < p := by exact_mod_cast hpos
+    have hf := le_cdivI (p * ((logMant p.natAbs q).2 - twoE)) hq
+    unfold primitive
+    rw [le_div_iff₀ hE]
+    push_cast at hf
+    have hu : (0 : ℝ) < (p : ℝ) / q := div_pos hpR hqR
+    have key : (p : ℝ) * (((logMant p.natAbs q).2 : ℝ) - twoE) / q =
+        ((p : ℝ) / q) * (((logMant p.natAbs q).2 : ℝ) / twoE - 1) * twoE := by
+      field_simp
+    have hm : ((p : ℝ) / q) * (Real.log |(p : ℝ) / q| - 1) ≤
+        ((p : ℝ) / q) * (((logMant p.natAbs q).2 : ℝ) / twoE - 1) :=
+      mul_le_mul_of_nonneg_left (by linarith) hu.le
+    nlinarith
+  · have hneg : p < 0 := lt_of_le_of_ne (not_lt.mp hpos) h0
+    have hpa : 0 < p.natAbs := Int.natAbs_pos.mpr h0
+    obtain ⟨hb, _⟩ := logMant_sound hpa hq
+    rw [natAbs_div_cast h0] at hb
+    have hpR : (p : ℝ) < 0 := by exact_mod_cast hneg
+    have hf := le_cdivI (p * ((logMant p.natAbs q).1 - twoE)) hq
+    unfold primitive
+    rw [le_div_iff₀ hE]
+    push_cast at hf
+    have hu : (p : ℝ) / q < 0 := div_neg_of_neg_of_pos hpR hqR
+    have key : (p : ℝ) * (((logMant p.natAbs q).1 : ℝ) - twoE) / q =
+        ((p : ℝ) / q) * (((logMant p.natAbs q).1 : ℝ) / twoE - 1) * twoE := by
+      field_simp
+    have hm : ((p : ℝ) / q) * (Real.log |(p : ℝ) / q| - 1) ≤
+        ((p : ℝ) / q) * (((logMant p.natAbs q).1 : ℝ) / twoE - 1) :=
+      mul_le_mul_of_nonpos_left (by linarith) hu.le
+    nlinarith
+
+/-- Mantissa lower hull of `F` on `[p1/q1, p2/q2]`. -/
+def hullLoM (p1 : ℤ) (q1 : ℕ) (p2 : ℤ) (q2 : ℕ) : ℤ :=
+  if p1 < q1 ∧ (q2 : ℤ) < p2 then min (min (pLoM p1 q1) (pLoM p2 q2)) (-(twoE : ℤ))
+  else min (pLoM p1 q1) (pLoM p2 q2)
+
+/-- Mantissa upper hull of `F` on `[p1/q1, p2/q2]`. -/
+def hullHiM (p1 : ℤ) (q1 : ℕ) (p2 : ℤ) (q2 : ℕ) : ℤ :=
+  if p1 < -(q1 : ℤ) ∧ -(q2 : ℤ) < p2 then max (max (pHiM p1 q1) (pHiM p2 q2)) twoE
+  else max (pHiM p1 q1) (pHiM p2 q2)
+
+theorem lt_one_iff_num {p : ℤ} {q : ℕ} (hq : 0 < q) : (p : ℝ) / q < 1 ↔ p < q := by
+  have hqR : (0 : ℝ) < q := by exact_mod_cast hq
+  rw [div_lt_one hqR]
+  exact_mod_cast Iff.rfl
+
+theorem hullLoM_le {p1 p2 : ℤ} {q1 q2 : ℕ} (hq1 : 0 < q1) (hq2 : 0 < q2) {u : ℝ}
+    (hxu : (p1 : ℝ) / q1 ≤ u) (huy : u ≤ (p2 : ℝ) / q2) :
+    ((hullLoM p1 q1 p2 q2 : ℤ) : ℝ) / twoE ≤ primitive u := by
+  have hE := twoE_cast_pos
+  have hm : ((min (pLoM p1 q1) (pLoM p2 q2) : ℤ) : ℝ) / twoE ≤
+      min (primitive ((p1 : ℝ) / q1)) (primitive ((p2 : ℝ) / q2)) := by
+    push_cast
+    rw [← min_div_div_right hE.le]
+    exact min_le_min (pLoM_le p1 hq1) (pLoM_le p2 hq2)
+  unfold hullLoM
+  rcases primitive_lower_hull hxu huy with h | ⟨hx, hy, h⟩
+  · split_ifs
+    · refine le_trans ?_ (le_trans hm h)
+      apply div_le_div_of_nonneg_right _ hE.le
+      exact_mod_cast min_le_left _ _
+    · exact le_trans hm h
+  · have hq2R : (0 : ℝ) < q2 := by exact_mod_cast hq2
+    have hx' : p1 < q1 := (lt_one_iff_num hq1).mp hx
+    have hy' : (q2 : ℤ) < p2 := by
+      rw [lt_div_iff₀ hq2R, one_mul] at hy
+      exact_mod_cast hy
+    simp only [hx', hy', and_self, ↓reduceIte]
+    refine le_trans ?_ h
+    rw [div_le_iff₀ hE]
+    have : ((min (min (pLoM p1 q1) (pLoM p2 q2)) (-(twoE : ℤ)) : ℤ) : ℝ) ≤ -(twoE : ℝ) := by
+      exact_mod_cast min_le_right _ _
+    linarith
+
+theorem le_hullHiM {p1 p2 : ℤ} {q1 q2 : ℕ} (hq1 : 0 < q1) (hq2 : 0 < q2) {u : ℝ}
+    (hxu : (p1 : ℝ) / q1 ≤ u) (huy : u ≤ (p2 : ℝ) / q2) :
+    primitive u ≤ ((hullHiM p1 q1 p2 q2 : ℤ) : ℝ) / twoE := by
+  have hE := twoE_cast_pos
+  have hm : max (primitive ((p1 : ℝ) / q1)) (primitive ((p2 : ℝ) / q2)) ≤
+      ((max (pHiM p1 q1) (pHiM p2 q2) : ℤ) : ℝ) / twoE := by
+    push_cast
+    rw [← max_div_div_right hE.le]
+    exact max_le_max (le_pHiM p1 hq1) (le_pHiM p2 hq2)
+  unfold hullHiM
+  rcases primitive_upper_hull hxu huy with h | ⟨hx, hy, h⟩
+  · split_ifs
+    · refine le_trans (le_trans h hm) ?_
+      apply div_le_div_of_nonneg_right _ hE.le
+      exact_mod_cast le_max_left _ _
+    · exact le_trans h hm
+  · have hq1R : (0 : ℝ) < q1 := by exact_mod_cast hq1
+    have hq2R : (0 : ℝ) < q2 := by exact_mod_cast hq2
+    have hx' : p1 < -(q1 : ℤ) := by
+      rw [div_lt_iff₀ hq1R] at hx
+      have : (p1 : ℝ) < -(q1 : ℝ) := by linarith
+      exact_mod_cast this
+    have hy' : -(q2 : ℤ) < p2 := by
+      rw [lt_div_iff₀ hq2R] at hy
+      have : -(q2 : ℝ) < p2 := by linarith
+      exact_mod_cast this
+    simp only [hx', hy', and_self, ↓reduceIte]
+    refine le_trans h ?_
+    rw [le_div_iff₀ hE]
+    have : (twoE : ℝ) ≤ ((max (max (pHiM p1 q1) (pHiM p2 q2)) (twoE : ℤ) : ℤ) : ℝ) := by
+      exact_mod_cast le_max_right _ _
+    linarith
+
+/-- An integer term: coefficient `cn/cd`, shift `en/ed`. -/
+abbrev TermI := ℤ × ℕ × ℤ × ℕ
+
+def TermI.toQ (t : TermI) : ℚ × ℚ := ((t.1 : ℚ) / t.2.1, (t.2.2.1 : ℚ) / t.2.2.2)
+
+/-- Mantissa lower bound of `c F(t + e)` on `[ln/ld, hn/hd]`. -/
+def termLowM (ln : ℤ) (ld : ℕ) (hn : ℤ) (hd : ℕ) (t : TermI) : ℤ :=
+  if 0 ≤ t.1 then
+    fdiv (t.1 * hullLoM (ln * t.2.2.2 + t.2.2.1 * ld) (ld * t.2.2.2)
+      (hn * t.2.2.2 + t.2.2.1 * hd) (hd * t.2.2.2)) t.2.1
+  else
+    fdiv (t.1 * hullHiM (ln * t.2.2.2 + t.2.2.1 * ld) (ld * t.2.2.2)
+      (hn * t.2.2.2 + t.2.2.1 * hd) (hd * t.2.2.2)) t.2.1
+
+def termsLowM (ln : ℤ) (ld : ℕ) (hn : ℤ) (hd : ℕ) : List TermI → ℤ
+  | [] => 0
+  | t :: l => termLowM ln ld hn hd t + termsLowM ln ld hn hd l
+
+def TermI.pos (t : TermI) : Bool := decide (0 < t.2.1) && decide (0 < t.2.2.2)
+
+theorem termLowM_le {ln hn : ℤ} {ld hd : ℕ} (hld : 0 < ld) (hhd : 0 < hd) {x : ℝ}
+    (hxl : (ln : ℝ) / ld ≤ x) (hxh : x ≤ (hn : ℝ) / hd) (t : TermI) (ht : t.pos = true) :
+    ((termLowM ln ld hn hd t : ℤ) : ℝ) / twoE ≤
+      ((t.toQ.1 : ℚ) : ℝ) * primitive (x + ((t.toQ.2 : ℚ) : ℝ)) := by
+  obtain ⟨cn, cd, en, ed⟩ := t
+  simp only [TermI.pos, Bool.and_eq_true, decide_eq_true_eq] at ht
+  obtain ⟨hcd, hed⟩ := ht
+  have hE := twoE_cast_pos
+  have hcdR : (0 : ℝ) < cd := by exact_mod_cast hcd
+  have hedR : (0 : ℝ) < ed := by exact_mod_cast hed
+  have hldR : (0 : ℝ) < ld := by exact_mod_cast hld
+  have hhdR : (0 : ℝ) < hd := by exact_mod_cast hhd
+  have hq1 : 0 < ld * ed := Nat.mul_pos hld hed
+  have hq2 : 0 < hd * ed := Nat.mul_pos hhd hed
+  have e1 : ((ln * ed + en * ld : ℤ) : ℝ) / ((ld * ed : ℕ) : ℝ) = (ln : ℝ) / ld + (en : ℝ) / ed := by
+    push_cast; field_simp
+  have e2 : ((hn * ed + en * hd : ℤ) : ℝ) / ((hd * ed : ℕ) : ℝ) = (hn : ℝ) / hd + (en : ℝ) / ed := by
+    push_cast; field_simp
+  have hx1 : ((ln * ed + en * ld : ℤ) : ℝ) / ((ld * ed : ℕ) : ℝ) ≤ x + (en : ℝ) / ed := by
+    rw [e1]; linarith
+  have hx2 : x + (en : ℝ) / ed ≤ ((hn * ed + en * hd : ℤ) : ℝ) / ((hd * ed : ℕ) : ℝ) := by
+    rw [e2]; linarith
+  simp only [termLowM, TermI.toQ]
+  push_cast
+  split_ifs with hc
+  · have hH := hullLoM_le hq1 hq2 hx1 hx2
+    have hf := fdiv_le (cn * hullLoM (ln * ↑ed + en * ↑ld) (ld * ed) (hn * ↑ed + en * ↑hd)
+      (hd * ed)) hcd
+    have hcR : (0 : ℝ) ≤ cn := by exact_mod_cast hc
+    push_cast at hf hH
+    rw [div_le_iff₀ hE]
+    have hm := mul_le_mul_of_nonneg_left hH (div_nonneg hcR hcdR.le)
+    have : (cn : ℝ) / cd * (((hullLoM (ln * ↑ed + en * ↑ld) (ld * ed) (hn * ↑ed + en * ↑hd)
+        (hd * ed) : ℤ) : ℝ) / twoE) * twoE =
+        (cn : ℝ) * ((hullLoM (ln * ↑ed + en * ↑ld) (ld * ed) (hn * ↑ed + en * ↑hd)
+        (hd * ed) : ℤ) : ℝ) / cd := by
+      field_simp
+    nlinarith
+  · have hH := le_hullHiM hq1 hq2 hx1 hx2
+    have hf := fdiv_le (cn * hullHiM (ln * ↑ed + en * ↑ld) (ld * ed) (hn * ↑ed + en * ↑hd)
+      (hd * ed)) hcd
+    have hcR : (cn : ℝ) ≤ 0 := by exact_mod_cast (le_of_lt (lt_of_not_ge hc))
+    push_cast at hf hH
+    rw [div_le_iff₀ hE]
+    have hm := mul_le_mul_of_nonpos_left hH (div_nonpos_of_nonpos_of_nonneg hcR hcdR.le)
+    have : (cn : ℝ) / cd * (((hullHiM (ln * ↑ed + en * ↑ld) (ld * ed) (hn * ↑ed + en * ↑hd)
+        (hd * ed) : ℤ) : ℝ) / twoE) * twoE =
+        (cn : ℝ) * ((hullHiM (ln * ↑ed + en * ↑ld) (ld * ed) (hn * ↑ed + en * ↑hd)
+        (hd * ed) : ℤ) : ℝ) / cd := by
+      field_simp
+    nlinarith
+
+theorem termsLowM_le {ln hn : ℤ} {ld hd : ℕ} (hld : 0 < ld) (hhd : 0 < hd) {x : ℝ}
+    (hxl : (ln : ℝ) / ld ≤ x) (hxh : x ≤ (hn : ℝ) / hd) (l : List TermI)
+    (hl : l.all TermI.pos = true) :
+    ((termsLowM ln ld hn hd l : ℤ) : ℝ) / twoE ≤ termsVal (l.map TermI.toQ) x := by
+  induction l with
+  | nil => simp [termsLowM]
+  | cons t l ih =>
+      simp only [List.all_cons, Bool.and_eq_true] at hl
+      simp only [termsLowM, List.map_cons, termsVal_cons]
+      push_cast
+      rw [add_div]
+      linarith [termLowM_le hld hhd hxl hxh t hl.1, ih hl.2]
+
+/-- Literal integer form of the merged term table (generated). -/
+def freqTermsI : List TermI := @@FREQTERMSI@@
+
+theorem freqTermsI_toQ : freqTermsI.map TermI.toQ = freqTerms := by decide +kernel
+
+theorem freqTermsI_pos : freqTermsI.all TermI.pos = true := by decide +kernel
+
+end Li2Lean.P0.CA.Frequency

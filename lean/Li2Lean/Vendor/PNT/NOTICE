@@ -1,0 +1,40 @@
+Li2Lean/Vendor/PNT
+==================
+
+This directory contains files copied and modified from
+
+  PrimeNumberTheoremAnd ("Prime Number Theorem and More")
+  https://github.com/AlexKontorovich/PrimeNumberTheoremAnd
+  commit c39a751132c88b6e8080b74c74023fd95b3d8be0
+  organized by Alex Kontorovich and Terence Tao, with contributors
+
+licensed under the Apache License, Version 2.0 (see LICENSE in this directory,
+an unmodified copy of the upstream LICENSE file). The upstream repository has
+no NOTICE file.
+
+Vendored files (upstream path -> local path):
+
+  PrimeNumberTheoremAnd/Consequences.lean -> Li2Lean/Vendor/PNT/Consequences.lean
+  PrimeNumberTheoremAnd/Wiener.lean -> Li2Lean/Vendor/PNT/Wiener.lean
+  PrimeNumberTheoremAnd/Fourier.lean -> Li2Lean/Vendor/PNT/Fourier.lean
+  PrimeNumberTheoremAnd/Sobolev.lean -> Li2Lean/Vendor/PNT/Sobolev.lean
+  PrimeNumberTheoremAnd/SmoothExistence.lean -> Li2Lean/Vendor/PNT/SmoothExistence.lean
+  PrimeNumberTheoremAnd/Mathlib/Algebra/Notation/Support.lean -> Li2Lean/Vendor/PNT/Mathlib/Algebra/Notation/Support.lean
+  PrimeNumberTheoremAnd/Mathlib/Analysis/Asymptotics/Asymptotics.lean -> Li2Lean/Vendor/PNT/Mathlib/Analysis/Asymptotics/Asymptotics.lean
+  PrimeNumberTheoremAnd/Mathlib/Analysis/SpecialFunctions/Log/Basic.lean -> Li2Lean/Vendor/PNT/Mathlib/Analysis/SpecialFunctions/Log/Basic.lean
+
+Modifications (2026-10-10, Li2Lean project), also listed in each file header:
+
+  - module paths and imports renamed from PrimeNumberTheoremAnd.* to
+    Li2Lean.Vendor.PNT.*;
+  - `import Architect` removed, together with every `@[blueprint ...]`
+    attribute and `blueprint_comment` block (documentation metadata only);
+  - Consequences.lean truncated after `chebyshev_asymptotic`, and its unused
+    `import PrimeNumberTheoremAnd.Defs` removed (Defs.lean is not vendored);
+  - Wiener.lean truncated after `WeakPNT`, and `prelim_decay_2`,
+    `AbsolutelyContinuous`, `prelim_decay_3`, `decay_alt` removed (the two
+    `prelim_decay_*` theorems have no proof upstream; none is used by `WeakPNT`);
+  - a provenance header added to each file.
+
+Declaration names, statements and proofs of all retained declarations are
+otherwise unchanged.

@@ -1,0 +1,23 @@
+Li2(1/2) Lean v6 declaration-closure receipt
+command: lake env lean -DautoImplicit=false verification/DeclarationClosureScan.lean
+toolchain: leanprover/lean4:v4.35.0-rc4
+utc: 2026-10-12T22:50:00Z
+source_package_manifest_sha256: 05b05c226371552bccf8db3bb8984769fd4d0e359edfaed955d7426d0b8084e3
+source_build_manifest_sha256: 3c5c3f85c7a7302961b2bc706cf76cb3ec9047b2c2a29513a7b324e399ef5fbe
+scan_mode: declaration types + values + encountered local inductive constructors/recursors
+positive_control: Li2Lean.li2_half_irrational_of_envelope_v2
+negative_control: Li2Lean.__v5_nonexistent_control
+---
+ROOT li2_half_irrational
+NODE_COUNT 105238
+DEPENDENCY_MODE declaration types + values + encountered local inductive constructors/recursors
+ACTIVE_COEFFICIENT_PRODUCER Li2Lean.P0.CoefficientAssembly.P0CoefficientStepActual present=true reachable_from_root=true
+POSITIVE_CONTROL Li2Lean.li2_half_irrational_of_envelope_v2 reachable_count=104679
+CONDITIONAL_CONTROL Li2Lean.li2_half_irrational_of_bridges reachable_count=33835 bridge_reachable_count=3
+NEGATIVE_CONTROL Li2Lean.__v5_nonexistent_control present=false
+PREFIX Li2Lean.P0.Config.CAReceipt reachable_count=0
+PREFIX Li2Lean.P0.CAReceiptSlack reachable_count=0
+PREFIX Li2Lean.P0DualCertificate reachable_count=0
+PREFIX Li2Lean.Li2Bridges reachable_count=0
+PREFIX Li2Bridges reachable_count=0
+exit_code: 0

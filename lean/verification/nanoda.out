@@ -1,0 +1,6 @@
+start=2026-10-12T19:57:33Z
+Checked 106317 declarations with no typechecker errors, 1 pretty printer errors: [
+    "Unable to print axioms",
+]
+exit_code=0 wall_s=6841
+end=2026-10-12T21:51:34Z

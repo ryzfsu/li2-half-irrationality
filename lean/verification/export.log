@@ -1,0 +1,31 @@
+PANIC at Option.get! Init.Data.Option.BasicAux:22:14: value is none
+backtrace:
+lean4export(+0x96a3745) [0x5c7e34924745]
+lean4export(+0x969a2d7) [0x5c7e3491b2d7]
+lean4export(lean_panic_fn_borrowed+0x2b) [0x5c7e3491b3bb]
+lean4export(List.mapTR.loop spec at main (lean4export)+0x191) [0x5c7e2e7250c1]
+lean4export([lean] main+0x393) [0x5c7e2e725563]
+lean4export(+0x964b1d7) [0x5c7e348cc1d7]
+lean4export(+0x964b84a) [0x5c7e348cc84a]
+/lib/x86_64-linux-gnu/libc.so.6(+0x9cb84) [0x76c7cb29cb84]
+/lib/x86_64-linux-gnu/libc.so.6(+0x129ecc) [0x76c7cb329ecc]
+PANIC at dumpConstant Export:237:48: Constant [anonymous] not found in environment.
+backtrace:
+lean4export(+0x96a3745) [0x5c7e34924745]
+lean4export(+0x969a2d7) [0x5c7e3491b2d7]
+lean4export(lean_panic_fn_borrowed+0x2b) [0x5c7e3491b3bb]
+lean4export(panic spec at dumpConstant (lean4export)+0x279) [0x5c7e2e731859]
+lean4export(List.forIn'.loop [arity↓] spec at main (lean4export)+0x262) [0x5c7e2e723d22]
+lean4export(main [λ] (lean4export)+0x167) [0x5c7e2e7241f7]
+lean4export(main [boxed, λ] (lean4export)+0x13) [0x5c7e2e724453]
+lean4export(<apply/3>+0x970) [0x5c7e3492be10]
+lean4export(M.run [arity↓] (lean4export)+0x33) [0x5c7e2e7260e3]
+lean4export(+0x964b1d7) [0x5c7e348cc1d7]
+lean4export(+0x964b84a) [0x5c7e348cc84a]
+/lib/x86_64-linux-gnu/libc.so.6(+0x9cb84) [0x76c7cb29cb84]
+/lib/x86_64-linux-gnu/libc.so.6(+0x129ecc) [0x76c7cb329ecc]
+export_seconds=47.51 maxrss_kb=7977312
+export_rc=0
+ 934260673 v6.ndjson
+ 152472825 v6.ndjson.zst
+1086733498 total

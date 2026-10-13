@@ -1,0 +1,11 @@
+Li2(1/2) Lean v6 axioms receipt
+run: the single retained 2026-10-12T19:38:36Z run
+command: lake env lean -DautoImplicit=false SolutionAxioms.lean
+toolchain: leanprover/lean4:v4.35.0-rc4
+lean_version: Lean (version 4.35.0-rc4, x86_64-unknown-linux-gnu, commit c29b6dda4f7c20e3eeaa717c4e565663c5cfa364, Release)
+mathlib_git_rev: 25e572b8074098af3f09d4cb2a4231cbdc584534
+lake_manifest_sha256: 4ff4603ab2d8b700dc530cbd4dd9f4354fbc5c6124eba8f5fdd0f91ea98a112a
+source_closure_manifest_sha256: 91f6ff52df60f9a95b55a49cb68990d445c28f6459b230a8de54232d452062bb
+source_closure_file: verification/source-closure.txt
+raw_output_file: verification/axioms-raw.txt
+exit_code: 0

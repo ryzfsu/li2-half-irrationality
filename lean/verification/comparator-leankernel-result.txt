@@ -1,0 +1,22 @@
+Lean-kernel comparator receipt (Li2(1/2) Lean v6)
+tool=leanprover comparator (x86_64 build), lean4export (x86_64), landrun sandbox
+config=verification/comparator-leankernel.json
+toolchain=leanprover/lean4:v4.35.0-rc4
+start_utc=2026-10-12T20:30:56Z
+end_utc_and_exit:
+exit_code=0
+end_utc=2026-10-13T01:59:18Z
+input_sha256:
+c7bdd859b6ac423d84180d53b0fe469721ef68f21359efd8202db12c02318cc6  Challenge.lean
+bbe870b7b68d2a05367cfaee54eacf1624f9902b45ba492f83e3358827eb1297  Solution.lean
+c2fee0141361bcaa215447d29b552de5762d21563fa44b80d2a3b682abe67414  verification/comparator-leankernel.json
+7e2efc3eb4a8b0e60b4240e6e30d7a4a1dad4dfe0b20ab84264c0e65e32f6cc9  comparator
+a683dccdc80f5e5ac2e148cb5292580bfb468852e00c0611b0f89c73b85de37e  lean4export
+6ada66a06669e8994e174a7271af2db636308e55a0d6ec896cc7d326b46727f6  landrun
+tool_output_tail:
+Build completed successfully (9031 jobs).
+Build completed successfully (9708 jobs).
+Running Lean default kernel on solution.
+Lean default kernel accepts the solution
+Your solution is okay!
+note=run in the v6 package directory with its retained Lake build; comparator rebuilt (replayed) Challenge and Solution itself and exported both inside the landrun sandbox before the kernel check.
